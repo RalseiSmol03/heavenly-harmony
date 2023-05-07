@@ -37,7 +37,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 		var sprMovieClip:SpriteMovieClip = sprAnimLib.createAnimation(noAntialiasing);
 
 		var frameCollection:FlxFramesCollection = new FlxFramesCollection(image, IMAGE);
-		for (i in excludeFrames == null ? sprMovieClip.getFrameLabels() : excludeFrames)
+		for (i in (excludeFrames == null ? sprMovieClip.getFrameLabels() : excludeFrames))
 			for (j in getFramesArray(sprMovieClip, i))
 				for (k in j)
 					frameCollection.pushFrame(k);
