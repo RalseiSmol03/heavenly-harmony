@@ -48,8 +48,9 @@ class AtlasFrameMaker extends FlxFramesCollection
 	@:noCompletion private static function getFramesArray(t:SpriteMovieClip, animation:String):Array<FlxFrame>
 	{
 		var daFramez:Array<FlxFrame> = [];
-
 		var rect:Rectangle = t.getBounds(t);
+
+		var frameNum:Int = 0;
 
 		for (i in t.getFrame(animation)...t.numFrames)
 		{
@@ -58,12 +59,14 @@ class AtlasFrameMaker extends FlxFramesCollection
 
 			var theFrame:FlxFrame = new FlxFrame(FlxGraphic.fromBitmapData(data));
 			theFrame.frame = new FlxRect(0, 0, data.width, data.height);
-			theFrame.name = animation + i;
+			theFrame.name = animation + frameNum;
 			theFrame.sourceSize.set(data.width, data.height);
 			daFramez.push(theFrame);
 
 			data.dispose();
 			data = null;
+
+			frameNum++;
 		}
 
 		return daFramez;
