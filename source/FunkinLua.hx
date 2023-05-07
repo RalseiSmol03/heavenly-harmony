@@ -38,7 +38,7 @@ import flixel.system.FlxAssets.FlxShader;
 import flixel.addons.display.FlxRuntimeShader;
 #end
 
-#if sys
+#if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
 #end
@@ -2757,7 +2757,7 @@ class FunkinLua {
 		
 		Lua_helper.add_callback(lua, "directoryFileList", function(folder:String) {
 			var list:Array<String> = [];
-			#if sys
+			#if MODS_ALLOWED
 			if(FileSystem.exists(folder)) {
 				for (folder in FileSystem.readDirectory(folder)) {
 					if (!list.contains(folder)) {

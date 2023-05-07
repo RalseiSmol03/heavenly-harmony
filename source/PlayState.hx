@@ -66,7 +66,7 @@ import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 #end
 
-#if sys
+#if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
 #end
@@ -1617,7 +1617,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
-		#if sys
+		#if MODS_ALLOWED
 		if(!FileSystem.exists(filepath))
 		#else
 		if(!OpenFlAssets.exists(filepath))

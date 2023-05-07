@@ -14,7 +14,7 @@ import flixel.FlxSubState;
 import haxe.Json;
 import haxe.format.JsonParser;
 import Alphabet;
-#if sys
+#if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
 #end

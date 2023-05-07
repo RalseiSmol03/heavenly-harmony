@@ -48,7 +48,7 @@ import openfl.utils.Assets as OpenFlAssets;
 import openfl.utils.ByteArray;
 
 using StringTools;
-#if sys
+#if MODS_ALLOWED
 import flash.media.Sound;
 import sys.FileSystem;
 import sys.io.File;
@@ -445,7 +445,7 @@ class ChartingState extends MusicBeatState
 
 			var songName:String = Paths.formatToSongPath(_song.song);
 			var file:String = Paths.json(songName + '/events');
-			#if sys
+			#if MODS_ALLOWED
 			if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
 			#else
 			if (OpenFlAssets.exists(file))
