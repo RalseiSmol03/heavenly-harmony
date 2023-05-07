@@ -52,17 +52,17 @@ class AtlasFrameMaker extends FlxFramesCollection
 
 		for (i in t.getFrame(animation)...t.numFrames)
 		{
-			var bitmapShit:BitmapData = new BitmapData(Std.int(rect.width + rect.x), Std.int(rect.height + rect.y), true, 0);
-			bitmapShit.draw(t, true);
+			var data:BitmapData = new BitmapData(Std.int(rect.width + rect.x), Std.int(rect.height + rect.y), true, 0);
+			data.draw(t, true);
 
-			var theFrame:FlxFrame = new FlxFrame(FlxGraphic.fromBitmapData(bitmapShit));
+			var theFrame:FlxFrame = new FlxFrame(FlxGraphic.fromBitmapData(data));
+			theFrame.frame = new FlxRect(0, 0, data.width, data.height);
 			theFrame.name = animation + i;
-			theFrame.frame = new FlxRect(0, 0, bitmapShit.width, bitmapShit.height);
-			theFrame.sourceSize.set(bitmapShit.width, bitmapShit.height);
+			theFrame.sourceSize.set(data.width, data.height);
 			daFramez.push(theFrame);
 
-			bitmapShit.dispose();
-			bitmapShit = null;
+			data.dispose();
+			data = null;
 		}
 
 		return daFramez;
