@@ -32,7 +32,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.system.FlxAssets.FlxShader;
-#if (!flash && sys)
+#if (!flash && MODS_ALLOWED && sys)
 import flixel.addons.display.FlxRuntimeShader;
 #end
 #if MODS_ALLOWED
@@ -3374,7 +3374,7 @@ class FunkinLua
 		return PlayState.instance.modchartTexts.exists(name) ? PlayState.instance.modchartTexts.get(name) : Reflect.getProperty(PlayState.instance, name);
 	}
 
-	#if (!flash && sys)
+	#if (!flash && MODS_ALLOWED && sys)
 	public function getShader(obj:String):FlxRuntimeShader
 	{
 		var killMe:Array<String> = obj.split('.');
@@ -3399,7 +3399,7 @@ class FunkinLua
 		if (!ClientPrefs.shaders)
 			return false;
 
-		#if (!flash && sys)
+		#if (!flash && MODS_ALLOWED && sys)
 		if (PlayState.instance.runtimeShaders.exists(name))
 		{
 			luaTrace('Shader $name was already initialized!');
@@ -4050,7 +4050,7 @@ class HScript
 		interp.variables.set('Character', Character);
 		interp.variables.set('Alphabet', Alphabet);
 		interp.variables.set('CustomSubstate', CustomSubstate);
-		#if (!flash && sys)
+		#if (!flash && MODS_ALLOWED && sys)
 		interp.variables.set('FlxRuntimeShader', FlxRuntimeShader);
 		#end
 		interp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
