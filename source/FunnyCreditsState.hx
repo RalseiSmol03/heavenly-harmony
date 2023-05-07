@@ -15,7 +15,7 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-import lime.utils.Assets;
+import openfl.utils.Assets;
 import flixel.addons.display.FlxBackdrop;
 
 using StringTools;

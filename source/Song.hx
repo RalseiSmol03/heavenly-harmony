@@ -3,7 +3,7 @@ package;
 import Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
-import lime.utils.Assets;
+import openfl.utils.Assets;
 #if MODS_ALLOWED
 import sys.io.File;
 import sys.FileSystem;

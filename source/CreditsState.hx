@@ -17,7 +17,7 @@ import flixel.tweens.FlxEase;
 import sys.FileSystem;
 import sys.io.File;
 #end
-import lime.utils.Assets;
+import openfl.utils.Assets;
 
 using StringTools;
 
