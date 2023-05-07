@@ -9,7 +9,7 @@ import flixel.FlxSprite;
 import flixel.FlxObject;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
-import flixel.input.mouse.FlxMouseEventManager;
+import flixel.input.mouse.FlxMouseEvent;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
@@ -216,7 +216,7 @@ class FunnyCreditsState extends MusicBeatState // Reusing CreditsState cuz BIG B
 				smallIcon.ID = i;
 
 				credIcons.push(smallIcon);
-				FlxMouseEventManager.add(smallIcon, null, null, hoverCallback, null, false, true, false);
+				FlxMouseEvent.add(smallIcon, null, null, hoverCallback, null, false, true, false);
 
 				var bigIcon:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/credits/portrait/' + creditsStuff[i][1]));
 				bigIcon.scale.set(0.65, 0.65);
