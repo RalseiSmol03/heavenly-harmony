@@ -1,7 +1,7 @@
 package;
 
 import flixel.FlxG;
-import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.FlxSprite;
 import flixel.addons.text.FlxTypeText;
 import flixel.graphics.frames.FlxAtlasFrames;
