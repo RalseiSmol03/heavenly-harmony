@@ -24,8 +24,7 @@ class Main extends Sprite
 
 		#if !mobile
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
-		if (fpsVar != null)
-			fpsVar.visible = ClientPrefs.showFPS;
+		fpsVar.visible = ClientPrefs.showFPS;
 		addChild(fpsVar);
 		#end
 
