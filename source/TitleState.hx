@@ -298,7 +298,7 @@ class TitleState extends MusicBeatState
 		// bg.updateHitbox();
 		add(bg);
 
-		backdrop = new FlxBackdrop(Paths.image('menus/scrollbg'), 1.0, 1.0, true, true);
+		backdrop = new FlxBackdrop(Paths.image('menus/scrollbg'), XY, 0, 0);
 		add(backdrop);
 
 		if (FlxG.save.data.beatenMainWeek != null)
