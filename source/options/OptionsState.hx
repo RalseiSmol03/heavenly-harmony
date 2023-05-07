@@ -50,11 +50,11 @@ class OptionsState extends MusicBeatState
 		}
 	}
 
-	var selectorLeft:Alphabet;
-	var selectorRight:Alphabet;
-
 	override function create()
 	{
+		Paths.clearStoredMemory();
+		Paths.clearUnusedMemory();
+
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
 		#end
@@ -64,18 +64,6 @@ class OptionsState extends MusicBeatState
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
-
-		/*
-			grpOptions = new FlxTypedGroup<Alphabet>();
-			add(grpOptions);
-
-			for (i in 0...options.length)
-			{
-				var optionText:Alphabet = new Alphabet(0, 0, options[i], true);
-				optionText.screenCenter();
-				optionText.y += (100 * (i - (options.length / 2))) + 50;
-				grpOptions.add(optionText);
-		}*/
 
 		menuItemz = new FlxTypedGroup<FlxSprite>();
 		add(menuItemz);
@@ -105,12 +93,8 @@ class OptionsState extends MusicBeatState
 		overlayy.antialiasing = ClientPrefs.globalAntialiasing;
 		add(overlayy);
 
-		selectorLeft = new Alphabet(0, 0, '>', true);
-		// add(selectorLeft);
-		selectorRight = new Alphabet(0, 0, '<', true);
-		// add(selectorRight);
-
 		changeItem();
+
 		ClientPrefs.saveSettings();
 
 		super.create();
@@ -126,14 +110,12 @@ class OptionsState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
-
-		if (upP)
+		if (controls.UI_UP_P)
 		{
 			changeItem(-1);
 		}
-		if (downP)
+
+		if (controls.UI_DOWN_P)
 		{
 			changeItem(1);
 		}
@@ -178,29 +160,4 @@ class OptionsState extends MusicBeatState
 			}
 		});
 	}
-	/*
-		function changeSelection(change:Int = 0) {
-			curSelected += change;
-			if (curSelected < 0)
-				curSelected = options.length - 1;
-			if (curSelected >= options.length)
-				curSelected = 0;
-
-			var bullShit:Int = 0;
-
-			for (item in grpOptions.members) {
-				item.targetY = bullShit - curSelected;
-				bullShit++;
-
-				item.alpha = 0.6;
-				if (item.targetY == 0) {
-					item.alpha = 1;
-					selectorLeft.x = item.x - 63;
-					selectorLeft.y = item.y;
-					selectorRight.x = item.x + item.width + 15;
-					selectorRight.y = item.y;
-				}
-			}
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-	}*/
 }
