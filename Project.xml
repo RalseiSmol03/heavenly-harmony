@@ -37,10 +37,10 @@
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
 	<set name="BUILD_DIR" value="export/32bit" if="32bits" />
 
-	<classpath name="source" />
+	<source name="source" />
 	
 	<!-- PSYCH ENGINE CUSTOMIZATION -->
-	<define name="LUA_ALLOWED" if="desktop" />
+	<!-- <define name="LUA_ALLOWED" if="desktop" /> -->
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
 	<define name="CRASH_HANDLER" />
 
