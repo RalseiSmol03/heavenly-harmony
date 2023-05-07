@@ -69,7 +69,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 				bitmapShit.draw(t, true);
 
 				var theFrame:FlxFrame = new FlxFrame(FlxGraphic.fromBitmapData(bitmapShit));
-				theFrame.name = animation + t.currentFrame;
+				theFrame.name = t.currentLabel + t.currentFrame;
 				theFrame.sourceSize.set(bitmapShit.width, bitmapShit.height);
 				theFrame.frame = new FlxRect(0, 0, bitmapShit.width, bitmapShit.height);
 				daFramez.push(theFrame);
