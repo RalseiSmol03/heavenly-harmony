@@ -15,10 +15,6 @@ import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
-#if MODS_ALLOWED
-import sys.FileSystem;
-import sys.io.File;
-#end
 import lime.utils.Assets;
 import flixel.addons.display.FlxBackdrop;
 
@@ -65,69 +61,20 @@ class FunnyCreditsState extends MusicBeatState // Reusing CreditsState cuz BIG B
 		border = new FlxSprite().loadGraphic(Paths.image('menus/credits/creditsoverlay'));
 		add(border);
 
-		#if MODS_ALLOWED
-		// trace("finding mod shit");
-		for (folder in Paths.getModDirectories())
+		if (Assets.exists(Paths.txt('creditss')))
 		{
-			var creditsFile:String = Paths.txt('creditss'); // yeah reusing this again
-			if (FileSystem.exists(creditsFile))
+			for (i in Assets.getText(Paths.txt('creditss')).split('\n'))
 			{
-				var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-				for (i in firstarray)
-				{
-					var arr:Array<String> = i.replace('\\n', '\n').split("::");
-					if (arr.length >= 5)
-						arr.push(folder);
-					creditsStuff.push(arr);
-				}
-				creditsStuff.push(['']);
-			}
-		};
-		var folder = "";
-		var creditsFile:String = Paths.txt('creditss');
-		if (FileSystem.exists(creditsFile))
-		{
-			var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-			for (i in firstarray)
-			{
-				var arr:Array<String> = i.replace('\\n', '\n').split("::");
+				final arr:Array<String> = i.replace('\\n', '\n').split('::');
+
 				if (arr.length >= 5)
-					arr.push(folder);
+					arr.push('');
+
 				creditsStuff.push(arr);
 			}
+
 			creditsStuff.push(['']);
 		}
-		for (folder in Paths.getModDirectories())
-		{
-			var creditsFile:String = Paths.mods(folder + '/data/creditss.txt');
-			if (FileSystem.exists(creditsFile))
-			{
-				var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-				for (i in firstarray)
-				{
-					var arr:Array<String> = i.replace('\\n', '\n').split("::");
-					if (arr.length >= 5)
-						arr.push(folder);
-					creditsStuff.push(arr);
-				}
-				creditsStuff.push(['']);
-			}
-		};
-		var folder = "";
-		var creditsFile:String = Paths.mods('data/creditss.txt');
-		if (FileSystem.exists(creditsFile))
-		{
-			var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-			for (i in firstarray)
-			{
-				var arr:Array<String> = i.replace('\\n', '\n').split("::");
-				if (arr.length >= 5)
-					arr.push(folder);
-				creditsStuff.push(arr);
-			}
-			creditsStuff.push(['']);
-		}
-		#end
 
 		var pisspoop:Array<Array<String>> = [];
 
@@ -135,9 +82,7 @@ class FunnyCreditsState extends MusicBeatState // Reusing CreditsState cuz BIG B
 		add(bigIcons);
 
 		for (i in pisspoop)
-		{
 			creditsStuff.push(i);
-		}
 
 		for (i in 0...creditsStuff.length)
 		{
@@ -145,6 +90,7 @@ class FunnyCreditsState extends MusicBeatState // Reusing CreditsState cuz BIG B
 			smallIcon.scale.set(0.6, 0.6);
 			smallIcon.antialiasing = true;
 			smallIcon.updateHitbox();
+
 			// look man im tired
 			switch (i)
 			{
@@ -264,6 +210,7 @@ class FunnyCreditsState extends MusicBeatState // Reusing CreditsState cuz BIG B
 		{
 			exit();
 		}
+
 		selector.x = FlxMath.lerp(selector.x, selXLerp, 0.25);
 		selector.y = FlxMath.lerp(selector.y, selYLerp, 0.25);
 
