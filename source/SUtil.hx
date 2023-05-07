@@ -60,11 +60,13 @@ class SUtil
 		#if mobile
 		if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
 		{
-			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n" + SUtil.getStorageDirectory(),
+			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n"
+				+ SUtil.getStorageDirectory(),
 				'Error!');
 			LimeSystem.exit(1);
 		}
-		else if ((FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
+		else if ((FileSystem.exists(SUtil.getStorageDirectory() + 'assets')
+			&& !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
 			&& (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods')))
 		{
 			Lib.application.window.alert("Why did you create two files called assets and mods instead of copying the folders from the .APK?, expect a crash.",
@@ -75,11 +77,13 @@ class SUtil
 		{
 			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'assets'))
 			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n" + SUtil.getStorageDirectory(),
+				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n"
+					+ SUtil.getStorageDirectory(),
 					'Error!');
 				LimeSystem.exit(1);
 			}
-			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'assets') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
+			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'assets')
+				&& !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'assets'))
 			{
 				Lib.application.window.alert("Why did you create a file called assets instead of copying the assets directory from the .APK?, expect a crash.",
 					'Error!');
@@ -88,11 +92,13 @@ class SUtil
 
 			if (!FileSystem.exists(SUtil.getStorageDirectory() + 'mods'))
 			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n" + SUtil.getStorageDirectory(),
+				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n"
+					+ SUtil.getStorageDirectory(),
 					'Error!');
 				LimeSystem.exit(1);
 			}
-			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'mods') && !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods'))
+			else if (FileSystem.exists(SUtil.getStorageDirectory() + 'mods')
+				&& !FileSystem.isDirectory(SUtil.getStorageDirectory() + 'mods'))
 			{
 				Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the .APK?, expect a crash.",
 					'Error!');
@@ -155,7 +161,8 @@ class SUtil
 				+ '-'
 				+ Date.now().toString().replace(' ', '-').replace(':', "'")
 				+ '.txt',
-				msg + '\n');
+				msg
+				+ '\n');
 		}
 		catch (e:Dynamic)
 		{

@@ -24,10 +24,10 @@ import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
 
-class FunnyCreditsState extends MusicBeatState //Reusing CreditsState cuz BIG BRAIN TIME
+class FunnyCreditsState extends MusicBeatState // Reusing CreditsState cuz BIG BRAIN TIME
 {
 	var curIcon:Int = -1;
-	
+
 	var lookin:Bool = false;
 	var canClick:Bool = false;
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -39,14 +39,14 @@ class FunnyCreditsState extends MusicBeatState //Reusing CreditsState cuz BIG BR
 	var border:FlxSprite;
 	var selector:FlxSprite;
 	var stars:FlxSprite;
-	
+
 	var nameText:FlxText;
 	var roleText:FlxText;
 	var quoteText:FlxText;
-	
+
 	var selXLerp:Float = 0;
 	var selYLerp:Float = 0;
-	
+
 	var bigIcons:FlxTypedGroup<FlxSprite>;
 
 	override function create()
@@ -58,90 +58,95 @@ class FunnyCreditsState extends MusicBeatState //Reusing CreditsState cuz BIG BR
 
 		bg = new FlxSprite().loadGraphic(Paths.image('menus/credits/bg'));
 		add(bg);
-		
+
 		selector = new FlxSprite().loadGraphic(Paths.image('menus/credits/credits_selector'));
 		add(selector);
-		
+
 		border = new FlxSprite().loadGraphic(Paths.image('menus/credits/creditsoverlay'));
 		add(border);
 
 		#if MODS_ALLOWED
-		//trace("finding mod shit");
+		// trace("finding mod shit");
 		for (folder in Paths.getModDirectories())
 		{
-			var creditsFile:String = Paths.txt('creditss'); //yeah reusing this again
+			var creditsFile:String = Paths.txt('creditss'); // yeah reusing this again
 			if (FileSystem.exists(creditsFile))
 			{
 				var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-				for(i in firstarray)
+				for (i in firstarray)
 				{
 					var arr:Array<String> = i.replace('\\n', '\n').split("::");
-					if(arr.length >= 5) arr.push(folder);
+					if (arr.length >= 5)
+						arr.push(folder);
 					creditsStuff.push(arr);
 				}
 				creditsStuff.push(['']);
 			}
 		};
 		var folder = "";
-			var creditsFile:String = Paths.txt('creditss');
-			if (FileSystem.exists(creditsFile))
+		var creditsFile:String = Paths.txt('creditss');
+		if (FileSystem.exists(creditsFile))
+		{
+			var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
+			for (i in firstarray)
 			{
-				var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-				for(i in firstarray)
-				{
-					var arr:Array<String> = i.replace('\\n', '\n').split("::");
-					if(arr.length >= 5) arr.push(folder);
-					creditsStuff.push(arr);
-				}
-				creditsStuff.push(['']);
+				var arr:Array<String> = i.replace('\\n', '\n').split("::");
+				if (arr.length >= 5)
+					arr.push(folder);
+				creditsStuff.push(arr);
 			}
+			creditsStuff.push(['']);
+		}
 		for (folder in Paths.getModDirectories())
 		{
 			var creditsFile:String = Paths.mods(folder + '/data/creditss.txt');
 			if (FileSystem.exists(creditsFile))
 			{
 				var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-				for(i in firstarray)
+				for (i in firstarray)
 				{
 					var arr:Array<String> = i.replace('\\n', '\n').split("::");
-					if(arr.length >= 5) arr.push(folder);
+					if (arr.length >= 5)
+						arr.push(folder);
 					creditsStuff.push(arr);
 				}
 				creditsStuff.push(['']);
 			}
 		};
 		var folder = "";
-			var creditsFile:String = Paths.mods('data/creditss.txt');
-			if (FileSystem.exists(creditsFile))
+		var creditsFile:String = Paths.mods('data/creditss.txt');
+		if (FileSystem.exists(creditsFile))
+		{
+			var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
+			for (i in firstarray)
 			{
-				var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-				for(i in firstarray)
-				{
-					var arr:Array<String> = i.replace('\\n', '\n').split("::");
-					if(arr.length >= 5) arr.push(folder);
-					creditsStuff.push(arr);
-				}
-				creditsStuff.push(['']);
+				var arr:Array<String> = i.replace('\\n', '\n').split("::");
+				if (arr.length >= 5)
+					arr.push(folder);
+				creditsStuff.push(arr);
 			}
+			creditsStuff.push(['']);
+		}
 		#end
 
 		var pisspoop:Array<Array<String>> = [];
-		
+
 		bigIcons = new FlxTypedGroup<FlxSprite>();
 		add(bigIcons);
-		
-		for(i in pisspoop){
+
+		for (i in pisspoop)
+		{
 			creditsStuff.push(i);
 		}
-	
+
 		for (i in 0...creditsStuff.length)
 		{
 			var smallIcon:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/credits/icons/' + creditsStuff[i][1]));
-			smallIcon.scale.set(0.6,0.6);
+			smallIcon.scale.set(0.6, 0.6);
 			smallIcon.antialiasing = true;
 			smallIcon.updateHitbox();
-			//look man im tired
-			switch(i)
+			// look man im tired
+			switch (i)
 			{
 				case 0:
 					smallIcon.x = 192;
@@ -204,35 +209,36 @@ class FunnyCreditsState extends MusicBeatState //Reusing CreditsState cuz BIG BR
 					smallIcon.x = 0;
 					smallIcon.y = 0;
 			}
-			
-			if (i <= 18){
-			add(smallIcon);
-			smallIcon.ID = i;
-			
-			credIcons.push(smallIcon);
-			FlxMouseEventManager.add(smallIcon, null, null, hoverCallback,null,false,true,false);
-			
-			var bigIcon:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/credits/portrait/' + creditsStuff[i][1]));
-			bigIcon.scale.set(0.65,0.65);
-			bigIcon.x = 875;
-			bigIcon.y = 35;
-			bigIcon.updateHitbox();
-			
-			add(bigIcon);
-			bigIcon.ID = i;
-			bigIcons.add(bigIcon);
+
+			if (i <= 18)
+			{
+				add(smallIcon);
+				smallIcon.ID = i;
+
+				credIcons.push(smallIcon);
+				FlxMouseEventManager.add(smallIcon, null, null, hoverCallback, null, false, true, false);
+
+				var bigIcon:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/credits/portrait/' + creditsStuff[i][1]));
+				bigIcon.scale.set(0.65, 0.65);
+				bigIcon.x = 875;
+				bigIcon.y = 35;
+				bigIcon.updateHitbox();
+
+				add(bigIcon);
+				bigIcon.ID = i;
+				bigIcons.add(bigIcon);
 			}
 		}
-		
+
 		stars = new FlxSprite().loadGraphic(Paths.image('menus/credits/credits_stars'));
 		add(stars);
-		
+
 		nameText = new FlxText(860, 400, 1180, "", 35);
 		nameText.setFormat(Paths.font("Marker Felt.ttf"), 35, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		nameText.scrollFactor.set();
 		nameText.borderSize = 1.2;
 		add(nameText);
-		
+
 		roleText = new FlxText(860, 440, 400, "", 30);
 		roleText.setFormat(Paths.font("Marker Felt.ttf"), 35, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		roleText.scrollFactor.set();
@@ -244,11 +250,11 @@ class FunnyCreditsState extends MusicBeatState //Reusing CreditsState cuz BIG BR
 		quoteText.scrollFactor.set();
 		quoteText.borderSize = 1.2;
 		add(quoteText);
-		
+
 		FlxG.mouse.visible = true;
-		
+
 		updateSelection(0);
-		
+
 		super.create();
 	}
 
@@ -260,29 +266,30 @@ class FunnyCreditsState extends MusicBeatState //Reusing CreditsState cuz BIG BR
 		}
 		selector.x = FlxMath.lerp(selector.x, selXLerp, 0.25);
 		selector.y = FlxMath.lerp(selector.y, selYLerp, 0.25);
-		
+
 		super.update(elapsed);
 	}
-	
-	function exit(){
+
+	function exit()
+	{
 		FlxG.sound.music.stop();
 		FlxG.sound.play(Paths.sound('cancelMenu'));
 		FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		MusicBeatState.switchState(new MainMenuState());
 	}
-	
+
 	function updateSelection(sel:Int)
 	{
 		var smallIcon:FlxSprite = credIcons[sel];
 
 		selXLerp = smallIcon.x;
 		selYLerp = smallIcon.y;
-			
+
 		nameText.text = creditsStuff[sel][0];
 		roleText.text = creditsStuff[sel][2];
 		quoteText.text = creditsStuff[sel][3];
-		
-		bigIcons.forEach(function(spr:FlxSprite) //portrait
+
+		bigIcons.forEach(function(spr:FlxSprite) // portrait
 		{
 			if (spr.ID == sel)
 			{
@@ -294,7 +301,7 @@ class FunnyCreditsState extends MusicBeatState //Reusing CreditsState cuz BIG BR
 			}
 		});
 	}
-	
+
 	function hoverCallback(object:FlxObject)
 	{
 		trace("overlap " + object.ID);

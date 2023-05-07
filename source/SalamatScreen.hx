@@ -1,4 +1,5 @@
 package;
+
 import flixel.FlxSprite;
 import flixel.system.FlxSound;
 import flixel.util.FlxTimer;
@@ -12,6 +13,7 @@ class SalamatScreen extends MusicBeatState
 {
 	var music:FlxSound;
 	var left:Bool = false;
+
 	override function create()
 	{
 		FlxG.sound.music.stop();
@@ -19,7 +21,7 @@ class SalamatScreen extends MusicBeatState
 		var thanks:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('menus/salamat'));
 		add(thanks);
 		FlxG.sound.play(Paths.sound('weekClear'));
-		
+
 		var thankss:FlxText = new FlxText(12, FlxG.height - 44, 0, "Thanks for playing", 12);
 		thankss.scrollFactor.set();
 		thankss.setFormat(Paths.font("GhostKidAOE.otf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -40,5 +42,4 @@ class SalamatScreen extends MusicBeatState
 		}
 		super.update(elapsed);
 	}
-	
 }

@@ -31,13 +31,16 @@ class OptionsState extends MusicBeatState
 {
 	var options:Array<String> = ['notes', 'controls', 'prefs'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
+
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
-	
+
 	var menuItemz:FlxTypedGroup<FlxSprite>;
 
-	function openSelectedSubstate(label:String) {
-		switch(label) {
+	function openSelectedSubstate(label:String)
+	{
+		switch (label)
+		{
 			case 'notes':
 				openSubState(new options.NotesSubState());
 			case 'controls':
@@ -50,7 +53,8 @@ class OptionsState extends MusicBeatState
 	var selectorLeft:Alphabet;
 	var selectorRight:Alphabet;
 
-	override function create() {
+	override function create()
+	{
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
 		#end
@@ -62,24 +66,24 @@ class OptionsState extends MusicBeatState
 		add(bg);
 
 		/*
-		grpOptions = new FlxTypedGroup<Alphabet>();
-		add(grpOptions);
+			grpOptions = new FlxTypedGroup<Alphabet>();
+			add(grpOptions);
+
+			for (i in 0...options.length)
+			{
+				var optionText:Alphabet = new Alphabet(0, 0, options[i], true);
+				optionText.screenCenter();
+				optionText.y += (100 * (i - (options.length / 2))) + 50;
+				grpOptions.add(optionText);
+		}*/
+
+		menuItemz = new FlxTypedGroup<FlxSprite>();
+		add(menuItemz);
 
 		for (i in 0...options.length)
 		{
-			var optionText:Alphabet = new Alphabet(0, 0, options[i], true);
-			optionText.screenCenter();
-			optionText.y += (100 * (i - (options.length / 2))) + 50;
-			grpOptions.add(optionText);
-		}*/
-		
-		menuItemz = new FlxTypedGroup<FlxSprite>();
-		add(menuItemz);
-		
-		for (i in 0...options.length)
-		{
 			var offset:Float = 108 - (Math.max(options.length, 4) - 4) * 80;
-			//Reusing the main menu code like some non lmao
+			// Reusing the main menu code like some non lmao
 			var menuItem:FlxSprite = new FlxSprite(0, 0);
 			menuItem.frames = Paths.getSparrowAtlas('menus/options/buddons/options-' + options[i]);
 			menuItem.animation.addByPrefix('idle', 'options-' + options[i] + " unsel", 1);
@@ -88,12 +92,13 @@ class OptionsState extends MusicBeatState
 			menuItem.ID = i;
 			menuItemz.add(menuItem);
 			var scr:Float = (options.length - 4) * 0.135;
-			if(options.length < 6) scr = 0;
+			if (options.length < 6)
+				scr = 0;
 			menuItem.scrollFactor.set(0, scr);
 			menuItem.antialiasing = ClientPrefs.globalAntialiasing;
 			menuItem.updateHitbox();
 		}
-		
+
 		var overlayy:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menus/options/optionoverlay'));
 		overlayy.updateHitbox();
 		overlayy.screenCenter();
@@ -101,9 +106,9 @@ class OptionsState extends MusicBeatState
 		add(overlayy);
 
 		selectorLeft = new Alphabet(0, 0, '>', true);
-		//add(selectorLeft);
+		// add(selectorLeft);
 		selectorRight = new Alphabet(0, 0, '<', true);
-		//add(selectorRight);
+		// add(selectorRight);
 
 		changeItem();
 		ClientPrefs.saveSettings();
@@ -111,14 +116,16 @@ class OptionsState extends MusicBeatState
 		super.create();
 	}
 
-	override function closeSubState() {
+	override function closeSubState()
+	{
 		super.closeSubState();
 		ClientPrefs.saveSettings();
 	}
 
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float)
+	{
 		super.update(elapsed);
-		
+
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 
@@ -131,16 +138,18 @@ class OptionsState extends MusicBeatState
 			changeItem(1);
 		}
 
-		if (controls.BACK) {
+		if (controls.BACK)
+		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (controls.ACCEPT) {
+		if (controls.ACCEPT)
+		{
 			openSelectedSubstate(options[curSelected]);
 		}
 	}
-	
+
 	function changeItem(huh:Int = 0)
 	{
 		curSelected += huh;
@@ -149,7 +158,7 @@ class OptionsState extends MusicBeatState
 			curSelected = 0;
 		if (curSelected < 0)
 			curSelected = menuItemz.length - 1;
-			
+
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		menuItemz.forEach(function(spr:FlxSprite)
@@ -161,37 +170,37 @@ class OptionsState extends MusicBeatState
 			{
 				spr.animation.play('selected');
 				var add:Float = 0;
-				if(menuItemz.length > 4) {
+				if (menuItemz.length > 4)
+				{
 					add = menuItemz.length * 8;
 				}
 				spr.centerOffsets();
 			}
 		});
 	}
-	
 	/*
-	function changeSelection(change:Int = 0) {
-		curSelected += change;
-		if (curSelected < 0)
-			curSelected = options.length - 1;
-		if (curSelected >= options.length)
-			curSelected = 0;
+		function changeSelection(change:Int = 0) {
+			curSelected += change;
+			if (curSelected < 0)
+				curSelected = options.length - 1;
+			if (curSelected >= options.length)
+				curSelected = 0;
 
-		var bullShit:Int = 0;
+			var bullShit:Int = 0;
 
-		for (item in grpOptions.members) {
-			item.targetY = bullShit - curSelected;
-			bullShit++;
+			for (item in grpOptions.members) {
+				item.targetY = bullShit - curSelected;
+				bullShit++;
 
-			item.alpha = 0.6;
-			if (item.targetY == 0) {
-				item.alpha = 1;
-				selectorLeft.x = item.x - 63;
-				selectorLeft.y = item.y;
-				selectorRight.x = item.x + item.width + 15;
-				selectorRight.y = item.y;
+				item.alpha = 0.6;
+				if (item.targetY == 0) {
+					item.alpha = 1;
+					selectorLeft.x = item.x - 63;
+					selectorLeft.y = item.y;
+					selectorRight.x = item.x + item.width + 15;
+					selectorRight.y = item.y;
+				}
 			}
-		}
-		FlxG.sound.play(Paths.sound('scrollMenu'));
+			FlxG.sound.play(Paths.sound('scrollMenu'));
 	}*/
 }
