@@ -6,7 +6,6 @@ import Discord.DiscordClient;
 #end
 import Section.SwagSection;
 import Song.SwagSong;
-import WiggleEffect.WiggleEffectType;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -55,7 +54,6 @@ import flixel.effects.particles.FlxParticle;
 import flixel.util.FlxSave;
 import flixel.animation.FlxAnimationController;
 import animateatlas.AtlasFrameMaker;
-import Achievements;
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
@@ -263,7 +261,6 @@ class PlayState extends MusicBeatState
 	var heyTimer:Float;
 
 	var bgGirls:BackgroundGirls;
-	var wiggleShit:WiggleEffect = new WiggleEffect();
 	var bgGhouls:BGSprite;
 
 	var tankWatchtower:BGSprite;
@@ -5402,21 +5399,6 @@ class PlayState extends MusicBeatState
 				limoCorpse.visible = false;
 				limoCorpseTwo.visible = false;
 				limoKillingState = 1;
-
-				#if ACHIEVEMENTS_ALLOWED
-				Achievements.henchmenDeath++;
-				FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
-				var achieve:String = checkForAchievement(['roadkill_enthusiast']);
-				if (achieve != null)
-				{
-					startAchievement(achieve);
-				}
-				else
-				{
-					FlxG.save.flush();
-				}
-				FlxG.log.add('Deaths: ' + Achievements.henchmenDeath);
-				#end
 			}
 		}
 	}
@@ -5764,96 +5746,6 @@ class PlayState extends MusicBeatState
 		setOnLuas('ratingName', ratingName);
 		setOnLuas('ratingFC', ratingFC);
 	}
-
-	#if ACHIEVEMENTS_ALLOWED
-	private function checkForAchievement(achievesToCheck:Array<String> = null):String
-	{
-		if (chartingMode)
-			return null;
-
-		var usedPractice:Bool = (ClientPrefs.getGameplaySetting('practice', false) || ClientPrefs.getGameplaySetting('botplay', false));
-		for (i in 0...achievesToCheck.length)
-		{
-			var achievementName:String = achievesToCheck[i];
-			if (!Achievements.isAchievementUnlocked(achievementName) && !cpuControlled)
-			{
-				var unlock:Bool = false;
-
-				if (achievementName.contains(WeekData.getWeekFileName())
-					&& achievementName.endsWith('nomiss')) // any FC achievements, name should be "weekFileName_nomiss", e.g: "weekd_nomiss";
-				{
-					if (isStoryMode
-						&& campaignMisses + songMisses < 1
-						&& CoolUtil.difficultyString() == 'HARD'
-						&& storyPlaylist.length <= 1
-						&& !changedDifficulty
-						&& !usedPractice)
-						unlock = true;
-				}
-				switch (achievementName)
-				{
-					case 'ur_bad':
-						if (ratingPercent < 0.2 && !practiceMode)
-						{
-							unlock = true;
-						}
-					case 'ur_good':
-						if (ratingPercent >= 1 && !usedPractice)
-						{
-							unlock = true;
-						}
-					case 'roadkill_enthusiast':
-						if (Achievements.henchmenDeath >= 100)
-						{
-							unlock = true;
-						}
-					case 'oversinging':
-						if (boyfriend.holdTimer >= 10 && !usedPractice)
-						{
-							unlock = true;
-						}
-					case 'hype':
-						if (!boyfriendIdled && !usedPractice)
-						{
-							unlock = true;
-						}
-					case 'two_keys':
-						if (!usedPractice)
-						{
-							var howManyPresses:Int = 0;
-							for (j in 0...keysPressed.length)
-							{
-								if (keysPressed[j])
-									howManyPresses++;
-							}
-
-							if (howManyPresses <= 2)
-							{
-								unlock = true;
-							}
-						}
-					case 'toastie':
-						if (/*ClientPrefs.framerate <= 60 &&*/ !ClientPrefs.shaders && ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing)
-						{
-							unlock = true;
-						}
-					case 'debugger':
-						if (Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice)
-						{
-							unlock = true;
-						}
-				}
-
-				if (unlock)
-				{
-					Achievements.unlockAchievement(achievementName);
-					return achievementName;
-				}
-			}
-		}
-		return null;
-	}
-	#end
 
 	var curLight:Int = -1;
 	var curLightEvent:Int = -1;
