@@ -41,7 +41,7 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
-		#if MODS_ALLOWED
+		#if desktop
 		Paths.pushGlobalMods();
 		#end
 		WeekData.loadTheFirstEnabledMod();

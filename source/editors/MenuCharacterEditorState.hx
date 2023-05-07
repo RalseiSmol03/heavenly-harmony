@@ -26,7 +26,7 @@ import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import flash.net.FileFilter;
 import haxe.Json;
-#if MODS_ALLOWED
+#if desktop
 import sys.io.File;
 #end
 
@@ -382,7 +382,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		_file.removeEventListener(Event.CANCEL, onLoadCancel);
 		_file.removeEventListener(IOErrorEvent.IO_ERROR, onLoadError);
 
-		#if MODS_ALLOWED
+		#if desktop
 		var fullPath:String = null;
 		@:privateAccess
 		if (_file.__path != null)
