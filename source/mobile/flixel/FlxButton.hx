@@ -11,11 +11,7 @@ import flixel.input.FlxPointer;
 import flixel.input.IFlxInput;
 import flixel.input.touch.FlxTouch;
 import flixel.math.FlxPoint;
-#if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;
-#else
-import flixel.sound.FlxSound;
-#end
 import flixel.text.FlxText;
 import flixel.util.FlxDestroyUtil;
 
