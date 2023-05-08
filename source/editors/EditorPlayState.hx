@@ -45,6 +45,7 @@ class EditorPlayState extends MusicBeatState
 	public function new(startPos:Float)
 	{
 		this.startPos = startPos;
+
 		Conductor.songPosition = startPos - startOffset;
 
 		startOffset = Conductor.crochet;
@@ -91,16 +92,12 @@ class EditorPlayState extends MusicBeatState
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		opponentStrums = new FlxTypedGroup<StrumNote>();
+
 		playerStrums = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
 
 		generateStaticArrows(0);
 		generateStaticArrows(1);
-		/*if(ClientPrefs.middleScroll) {
-			opponentStrums.forEachAlive(function (note:StrumNote) {
-				note.visible = false;
-			});
-		}*/
 
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 		add(grpNoteSplashes);
@@ -115,23 +112,6 @@ class EditorPlayState extends MusicBeatState
 			vocals = new FlxSound();
 
 		generateSong(PlayState.SONG.song);
-		#if (LUA_ALLOWED && MODS_ALLOWED)
-		for (notetype in noteTypeMap.keys())
-		{
-			var luaToLoad:String = Paths.modFolders('custom_notetypes/' + notetype + '.lua');
-			if (sys.FileSystem.exists(luaToLoad))
-			{
-				var lua:editors.EditorLua = new editors.EditorLua(luaToLoad);
-				new FlxTimer().start(0.1, function(tmr:FlxTimer)
-				{
-					lua.stop();
-					lua = null;
-				});
-			}
-		}
-		#end
-		noteTypeMap.clear();
-		noteTypeMap = null;
 
 		scoreTxt = new FlxText(10, FlxG.height - 50, FlxG.width - 20, "Hits: 0 | Misses: 0", 20);
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
