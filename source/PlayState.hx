@@ -62,7 +62,7 @@ import Conductor.Rating;
 import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 #end
-#if MODS_ALLOWED
+#if (MODS_ALLOWED || LUA_ALLOWED)
 import sys.FileSystem;
 import sys.io.File;
 #end
