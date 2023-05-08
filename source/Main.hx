@@ -22,11 +22,9 @@ class Main extends Sprite
 
 		addChild(new FlxGame(1280, 720, TitleState, 60, 60, true, false));
 
-		#if !mobile
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		fpsVar.visible = ClientPrefs.showFPS;
 		addChild(fpsVar);
-		#end
 
 		#if html5
 		FlxG.autoPause = false;
