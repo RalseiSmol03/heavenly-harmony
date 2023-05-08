@@ -31,16 +31,16 @@ class AtlasFrameMaker extends FlxFramesCollection
 		var image:FlxGraphic = Paths.image('$key/spritemap');
 
 		var movieClip:SpriteMovieClip = new SpriteAnimationLibrary(animData, atlasData, image.bitmap).createAnimation(noAntialiasing);
-
 		var frameCollection:FlxFramesCollection = new FlxFramesCollection(image, IMAGE);
+
 		for (i in (excludeFrames == null ? movieClip.getFrameLabels() : excludeFrames))
 		{
-			trace('Creating "$i" for "$key"');
+			trace('Creating "$i" for "$key"...');
+
 			for (j in getFramesArray(movieClip, i))
-			{
 				frameCollection.pushFrame(j);
-				trace('Finished creating "$i" for "$key"');
-			}
+
+			trace('Finished creating "$i" for "$key"...');
 		}
 
 		return frameCollection;
