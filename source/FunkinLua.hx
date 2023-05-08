@@ -58,10 +58,10 @@ class FunkinLua
 	public static var Function_Continue:Dynamic = 0;
 	public static var Function_StopLua:Dynamic = 2;
 
-	// public var errorHandler:String->Void;
 	#if LUA_ALLOWED
 	public var lua:cpp.RawPointer<Lua_State> = null;
 	#end
+
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';
 	public var closed:Bool = false;
@@ -74,13 +74,9 @@ class FunkinLua
 	{
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
+
 		LuaL.openlibs(lua);
-		Lua.init_callbacks(lua);
 
-		// trace('Lua version: ' + Lua.version());
-		// trace("LuaJIT version: " + Lua.versionJIT());
-
-		// LuaL.dostring(lua, CLENSE);
 		try
 		{
 			var result:Dynamic = LuaL.dofile(lua, script);
@@ -102,7 +98,9 @@ class FunkinLua
 			trace(e);
 			return;
 		}
+
 		scriptName = script;
+
 		initHaxeModule();
 
 		trace('lua file loaded succesfully:' + script);
