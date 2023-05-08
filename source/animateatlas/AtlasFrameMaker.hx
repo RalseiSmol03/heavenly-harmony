@@ -55,7 +55,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 
 			if (movieClip.currentLabel == animation)
 			{
-				var data:BitmapData = new BitmapData(Std.int(movieClip.getRect(movieClip).width + movieClip.getRect(t).x), Std.int(t.getRect(t).height + t.getRect(t).y), true, 0);
+				var data:BitmapData = new BitmapData(Std.int(movieClip.getRect(movieClip).width + movieClip.getRect(movieClip).x), Std.int(movieClip.getRect(movieClip).height + movieClip.getRect(movieClip).y), true, 0);
 				data.draw(movieClip, true);
 
 				var theFrame:FlxFrame = new FlxFrame(FlxGraphic.fromBitmapData(data));
