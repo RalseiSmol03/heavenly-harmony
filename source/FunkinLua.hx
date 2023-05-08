@@ -56,9 +56,10 @@ using StringTools;
 
 class FunkinLua
 {
-	public static var Function_Stop:Dynamic = 1;
-	public static var Function_Continue:Dynamic = 0;
-	public static var Function_StopLua:Dynamic = 2;
+	public static var Function_Stop:Dynamic = "##PSYCHLUA_FUNCTIONSTOP";
+	public static var Function_Continue:Dynamic = "##PSYCHLUA_FUNCTIONCONTINUE";
+	public static var Function_StopLua:Dynamic = "##PSYCHLUA_FUNCTIONSTOPLUA";
+
 	public static var callbacks:Map<String, Function> = [];
 
 	#if LUA_ALLOWED
@@ -3862,7 +3863,9 @@ class FunkinLua
 				Lua.pushnil(L);
 			case TBool:
 				Lua.pushboolean(L, object ? 1 : 0);
-			case TInt | TFloat:
+			case TInt:
+				Lua.pushinteger(L, cast(object, Int));
+			case TFloat:
 				Lua.pushnumber(L, cast(object, Float));
 			case TClass(String):
 				Lua.pushstring(L, cast(object, String));
