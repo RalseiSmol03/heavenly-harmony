@@ -758,7 +758,7 @@ class FunkinLua
 						Lua.newtable(lua);
 						var tableIdx = Lua.gettop(lua);
 
-						Lua.pushvalue(luaInstance.lua, Lua.LUA_GLOBALSINDEX);
+						Lua.pushvalue(luaInstance.lua, Lua.GLOBALSINDEX);
 						Lua.pushnil(luaInstance.lua);
 						while(Lua.next(luaInstance.lua, -2) != 0) {
 							// key = -2
@@ -3734,11 +3734,11 @@ class FunkinLua
 		{
 			switch (status)
 			{
-				case Lua.LUA_ERRRUN:
+				case Lua.ERRRUN:
 					return "Runtime Error";
-				case Lua.LUA_ERRMEM:
+				case Lua.ERRMEM:
 					return "Memory Allocation Error";
-				case Lua.LUA_ERRERR:
+				case Lua.ERRERR:
 					return "Critical Error";
 			}
 			return "Unknown Error";
@@ -3766,9 +3766,9 @@ class FunkinLua
 			Lua.getglobal(lua, func);
 			var type:Int = Lua.type(lua, -1);
 
-			if (type != Lua.LUA_TFUNCTION)
+			if (type != Lua.TFUNCTION)
 			{
-				if (type > Lua.LUA_TNIL)
+				if (type > Lua.TNIL)
 					luaTrace("ERROR (" + func + "): attempt to call a " + typeToString(type) + " value", false, false, FlxColor.RED);
 
 				Lua.pop(lua, 1);
@@ -3780,7 +3780,7 @@ class FunkinLua
 			var status:Int = Lua.pcall(lua, args.length, 1, 0);
 
 			// Checks if it's not successful, then show a error.
-			if (status != Lua.LUA_OK)
+			if (status != Lua.OK)
 			{
 				var error:String = getErrorMessage(status);
 				luaTrace("ERROR (" + func + "): " + error, false, false, FlxColor.RED);
@@ -3864,18 +3864,18 @@ class FunkinLua
 		#if LUA_ALLOWED
 		switch (type)
 		{
-			case Lua.LUA_TBOOLEAN:
+			case Lua.TBOOLEAN:
 				return "boolean";
-			case Lua.LUA_TNUMBER:
+			case Lua.TNUMBER:
 				return "number";
-			case Lua.LUA_TSTRING:
+			case Lua.TSTRING:
 				return "string";
-			case Lua.LUA_TTABLE:
+			case Lua.TTABLE:
 				return "table";
-			case Lua.LUA_TFUNCTION:
+			case Lua.TFUNCTION:
 				return "function";
 		}
-		if (type <= Lua.LUA_TNIL)
+		if (type <= Lua.TNIL)
 			return "nil";
 		#end
 		return "unknown";

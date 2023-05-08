@@ -233,7 +233,7 @@ class EditorLua
 			/*var resultStr:String = Lua.tostring(lua, result);
 				var error:String = Lua.tostring(lua, -1);
 				Lua.pop(lua, 1); */
-			if (Lua.type(lua, -1) == Lua.LUA_TSTRING)
+			if (Lua.type(lua, -1) == Lua.TSTRING)
 			{
 				var error:String = Lua.tostring(lua, -1);
 				Lua.pop(lua, 1);
@@ -255,7 +255,7 @@ class EditorLua
 	{ // Makes it ignore warnings
 		switch (Lua.type(leLua, leResult))
 		{
-			case Lua.LUA_TNIL | Lua.LUA_TBOOLEAN | Lua.LUA_TNUMBER | Lua.LUA_TSTRING | Lua.LUA_TTABLE:
+			case Lua.TNIL | Lua.TBOOLEAN | Lua.TNUMBER | Lua.TSTRING | Lua.TTABLE:
 				return true;
 		}
 		return false;
