@@ -2933,10 +2933,17 @@ class FunkinLua
 		{
 			try
 			{
+				#if MODS_ALLOWED
 				if (!absolute)
 					File.saveContent(Paths.mods(path), content);
 				else
 					File.saveContent(path, content);
+				#else
+				if (!absolute)
+					File.saveContent(Paths.getPreloadPath(path), content);
+				else
+					File.saveContent(path, content);
+				#end
 
 				return true;
 			}
