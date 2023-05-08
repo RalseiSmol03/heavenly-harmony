@@ -13,8 +13,6 @@ import haxe.Json;
 import openfl.display.BitmapData;
 import openfl.geom.Rectangle;
 
-using StringTools;
-
 class AtlasFrameMaker extends FlxFramesCollection
 {
 	public static function construct(key:String, ?excludeFrames:Array<String>, ?noAntialiasing:Bool = false):FlxFramesCollection
