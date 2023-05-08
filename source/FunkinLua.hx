@@ -3691,7 +3691,7 @@ class FunkinLua
 			}
 
 			for (arg in args)
-				Convert.toLua(lua, arg);
+				toLua(lua, arg);
 
 			var status:Int = Lua.pcall(lua, args.length, 1, 0);
 
@@ -3704,7 +3704,7 @@ class FunkinLua
 			}
 
 			// If successful, pass and then return the result.
-			var result:Dynamic = cast Convert.fromLua(lua, -1);
+			var result:Dynamic = cast fromLua(lua, -1);
 			if (result == null)
 				result = Function_Continue;
 
@@ -3807,7 +3807,7 @@ class FunkinLua
 			return;
 		}
 
-		Convert.toLua(lua, data);
+		toLua(lua, data);
 		Lua.setglobal(lua, variable);
 		#end
 	}
@@ -3817,7 +3817,7 @@ class FunkinLua
 	{
 		var result:String = null;
 		Lua.getglobal(lua, variable);
-		result = Convert.fromLua(lua, -1);
+		result = fromLua(lua, -1);
 		Lua.pop(lua, 1);
 
 		if (result == null)
