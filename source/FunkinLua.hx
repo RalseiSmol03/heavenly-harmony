@@ -575,15 +575,15 @@ class FunkinLua
 			}
 			else
 			{
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
 				if (FileSystem.exists(cervix))
 				{
 					doPush = true;
 				}
 			}
 			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if (Assets.exists(cervix))
+			cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
+			if (FileSystem.exists(cervix))
 			{
 				doPush = true;
 			}
@@ -635,15 +635,15 @@ class FunkinLua
 			}
 			else
 			{
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
 				if (FileSystem.exists(cervix))
 				{
 					doPush = true;
 				}
 			}
 			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if (Assets.exists(cervix))
+			cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
+			if (FileSystem.exists(cervix))
 			{
 				doPush = true;
 			}
@@ -699,15 +699,15 @@ class FunkinLua
 			}
 			else
 			{
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
 				if (FileSystem.exists(cervix))
 				{
 					doPush = true;
 				}
 			}
 			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if (Assets.exists(cervix))
+			cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
+			if (FileSystem.exists(cervix))
 			{
 				doPush = true;
 			}
@@ -742,15 +742,15 @@ class FunkinLua
 			}
 			else
 			{
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
 				if (FileSystem.exists(cervix))
 				{
 					doPush = true;
 				}
 			}
 			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if (Assets.exists(cervix))
+			cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
+			if (FileSystem.exists(cervix))
 			{
 				doPush = true;
 			}
@@ -785,15 +785,15 @@ class FunkinLua
 			}
 			else
 			{
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
 				if (FileSystem.exists(cervix))
 				{
 					doPush = true;
 				}
 			}
 			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if (Assets.exists(cervix))
+			cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
+			if (FileSystem.exists(cervix))
 			{
 				doPush = true;
 			}
@@ -835,15 +835,15 @@ class FunkinLua
 			}
 			else
 			{
-				cervix = Paths.getPreloadPath(cervix);
+				cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
 				if (FileSystem.exists(cervix))
 				{
 					doPush = true;
 				}
 			}
 			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if (Assets.exists(cervix))
+			cervix = SUtil.getStorageDirectory() + Paths.getPreloadPath(cervix);
+			if (FileSystem.exists(cervix))
 			{
 				doPush = true;
 			}
@@ -2449,7 +2449,7 @@ class FunkinLua
 			#if MODS_ALLOWED
 			if (FileSystem.exists(path))
 			#else
-			if (Assets.exists(path))
+			if (FileSystem.exists(path))
 			#end
 			{
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
@@ -2963,7 +2963,7 @@ class FunkinLua
 				#end
 
 				var lePath:String = Paths.getPath(path, TEXT);
-				if (Assets.exists(lePath))
+				if (FileSystem.exists(lePath))
 				{
 					FileSystem.deleteFile(lePath);
 					return true;
