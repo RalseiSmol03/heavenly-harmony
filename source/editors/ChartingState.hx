@@ -49,7 +49,7 @@ import openfl.utils.ByteArray;
 
 using StringTools;
 
-#if MODS_ALLOWED
+#if (MODS_ALLOWED || LUA_ALLOWED)
 import flash.media.Sound;
 import sys.FileSystem;
 import sys.io.File;
