@@ -1,11 +1,6 @@
 package;
 
-import Sys.sleep;
 import discord_rpc.DiscordRpc;
-#if LUA_ALLOWED
-import llua.Lua;
-import llua.State;
-#end
 
 using StringTools;
 
@@ -13,7 +8,7 @@ class DiscordClient
 {
 	public static var isInitialized:Bool = false;
 
-	public function new()
+	public function new():Void
 	{
 		trace("Discord Client starting...");
 		DiscordRpc.start({
@@ -27,19 +22,18 @@ class DiscordClient
 		while (true)
 		{
 			DiscordRpc.process();
-			sleep(2);
-			// trace("Discord Client Update");
+			Sys.sleep(2);
 		}
 
 		DiscordRpc.shutdown();
 	}
 
-	public static function shutdown()
+	public static function shutdown():Void
 	{
 		DiscordRpc.shutdown();
 	}
 
-	static function onReady()
+	static function onReady():Void
 	{
 		DiscordRpc.presence({
 			details: "In the Menus",
@@ -49,34 +43,34 @@ class DiscordClient
 		});
 	}
 
-	static function onError(_code:Int, _message:String)
+	static function onError(_code:Int, _message:String):Void
 	{
 		trace('Error! $_code : $_message');
 	}
 
-	static function onDisconnected(_code:Int, _message:String)
+	static function onDisconnected(_code:Int, _message:String):Void
 	{
 		trace('Disconnected! $_code : $_message');
 	}
 
-	public static function initialize()
+	public static function initialize():Void
 	{
-		var DiscordDaemon = sys.thread.Thread.create(() ->
+		sys.thread.Thread.create(function()
 		{
 			new DiscordClient();
 		});
+
 		trace("Discord Client initialized");
+
 		isInitialized = true;
 	}
 
-	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
+	public static function changePresence(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float):Void
 	{
 		var startTimestamp:Float = if (hasStartTimestamp) Date.now().getTime() else 0;
 
 		if (endTimestamp > 0)
-		{
 			endTimestamp = startTimestamp + endTimestamp;
-		}
 
 		DiscordRpc.presence({
 			details: details,
@@ -88,18 +82,5 @@ class DiscordClient
 			startTimestamp: Std.int(startTimestamp / 1000),
 			endTimestamp: Std.int(endTimestamp / 1000)
 		});
-
-		// trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 	}
-
-	#if LUA_ALLOWED
-	public static function addLuaCallbacks(lua:cpp.RawPointer<Lua_State>)
-	{
-		Lua_helper.add_callback(lua, "changePresence",
-			function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
-			{
-				changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
-			});
-	}
-	#end
 }
