@@ -3988,25 +3988,25 @@ class FunkinLua
 
 	public function addCallback(name:String, callback:Function):Void
 	{
-		if (vm == null || (vm != null && (callback != null && !Reflect.isFunction(callback))))
+		if (lua == null || (lua != null && (callback != null && !Reflect.isFunction(callback))))
 			return;
 
 		callbacks.set(name, callback);
 
-		Lua.pushstring(vm, name);
-		Lua.pushcclosure(vm, cpp.Function.fromStaticFunction(callbackHandler), 1);
-		Lua.setglobal(vm, name);
+		Lua.pushstring(lua, name);
+		Lua.pushcclosure(lua, cpp.Function.fromStaticFunction(callbackHandler), 1);
+		Lua.setglobal(lua, name);
 	}
 
 	public function removeCallback(name:String):Void
 	{
-		if (vm == null)
+		if (lua == null)
 			return;
 
 		callbacks.remove(name);
 
-		Lua.pushnil(vm);
-		Lua.setglobal(vm, name);
+		Lua.pushnil(lua);
+		Lua.setglobal(lua, name);
 	}
 
 	private static function callbackHandler(L:cpp.RawPointer<Lua_State>):Int
