@@ -3627,9 +3627,8 @@ class FunkinLua
 		if (ignoreCheck || getBool('luaDebugMode'))
 		{
 			if (deprecated && !getBool('luaDeprecatedWarnings'))
-			{
 				return;
-			}
+
 			PlayState.instance.addTextToDebug(text, color);
 			trace(text);
 		}
@@ -3783,17 +3782,18 @@ class FunkinLua
 		#if LUA_ALLOWED
 		switch (type)
 		{
-			case Lua.TBOOLEAN:
+			case t if (t == Lua.TBOOLEAN):
 				return "boolean";
-			case Lua.TNUMBER:
+			case t if (t == Lua.TNUMBER):
 				return "number";
-			case Lua.TSTRING:
+			case t if (t == Lua.TSTRING):
 				return "string";
-			case Lua.TTABLE:
+			case t if (t == Lua.TTABLE):
 				return "table";
-			case Lua.TFUNCTION:
+			case t if (t == Lua.TFUNCTION):
 				return "function";
 		}
+
 		if (type <= Lua.TNIL)
 			return "nil";
 		#end
