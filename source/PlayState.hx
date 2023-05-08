@@ -939,7 +939,7 @@ class PlayState extends MusicBeatState
 		}
 		#elseif sys
 		var luaToLoad:String = SUtil.getStorageDirectory() + Paths.getPreloadPath('stages/' + curStage + '.lua');
-		if (OpenFlFileSystem.exists(luaToLoad))
+		if (FileSystem.exists(luaToLoad))
 		{
 			luaArray.push(new FunkinLua(luaToLoad));
 		}
@@ -1252,7 +1252,7 @@ class PlayState extends MusicBeatState
 			}
 			#elseif sys
 			var luaToLoad:String = SUtil.getStorageDirectory() + Paths.getPreloadPath('custom_notetypes/' + notetype + '.lua');
-			if (OpenFlFileSystem.exists(luaToLoad))
+			if (FileSystem.exists(luaToLoad))
 			{
 				luaArray.push(new FunkinLua(luaToLoad));
 			}
@@ -1276,7 +1276,7 @@ class PlayState extends MusicBeatState
 			}
 			#elseif sys
 			var luaToLoad:String = SUtil.getStorageDirectory() + Paths.getPreloadPath('custom_events/' + event + '.lua');
-			if (OpenFlFileSystem.exists(luaToLoad))
+			if (FileSystem.exists(luaToLoad))
 			{
 				luaArray.push(new FunkinLua(luaToLoad));
 			}
@@ -1696,7 +1696,7 @@ class PlayState extends MusicBeatState
 		#if MODS_ALLOWED
 		if (!FileSystem.exists(filepath))
 		#else
-		if (!OpenFlFileSystem.exists(filepath))
+		if (!FileSystem.exists(filepath))
 		#end
 		{
 			FlxG.log.warn('Couldnt find video file: ' + name);
