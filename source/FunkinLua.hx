@@ -42,6 +42,7 @@ import Type.ValueType;
 import Controls;
 import DialogueBoxPsych;
 import haxe.Constraints;
+import haxe.DynamicAccess;
 #if hscript
 import hscript.Parser;
 import hscript.Interp;
