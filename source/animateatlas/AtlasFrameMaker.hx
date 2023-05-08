@@ -5,7 +5,6 @@ import animateatlas.displayobject.SpriteMovieClip;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFramesCollection;
 import flixel.graphics.frames.FlxFrame;
-import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
@@ -65,8 +64,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 				theFrame.sourceSize.set(data.width, data.height);
 				daFrames.push(theFrame);
 
-				data.dispose();
-				data = null;
+				data = FlxDestroyUtil.dispose(data);
 			}
 			else
 				break;
