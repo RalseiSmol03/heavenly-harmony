@@ -1,7 +1,6 @@
 package animateatlas;
 
 import animateatlas.JSONData;
-import animateatlas.displayobject.SpriteAnimationLibrary;
 import animateatlas.displayobject.SpriteMovieClip;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxFramesCollection;
@@ -23,9 +22,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 		if (Paths.fileExists('images/$key/spritemap1.json', TEXT))
 		{
 			PlayState.instance.addTextToDebug("Only Spritemaps made with Adobe Animate 2018 are supported", FlxColor.RED);
-
 			trace("Only Spritemaps made with Adobe Animate 2018 are supported");
-
 			return null;
 		}
 
@@ -33,41 +30,50 @@ class AtlasFrameMaker extends FlxFramesCollection
 		var atlasData:AtlasData = Json.parse(Paths.getTextFromFile('images/$key/spritemap.json').replace("\uFEFF", ""));
 		var image:FlxGraphic = Paths.image('$key/spritemap');
 
-		var sprAnimLib:SpriteAnimationLibrary = new SpriteAnimationLibrary(animData, atlasData, image.bitmap);
-		var sprMovieClip:SpriteMovieClip = sprAnimLib.createAnimation(noAntialiasing);
+		var movieClip:SpriteMovieClip = new SpriteAnimationLibrary(animData, atlasData, image.bitmap).createAnimation(noAntialiasing);
 
 		var frameCollection:FlxFramesCollection = new FlxFramesCollection(image, IMAGE);
-		for (i in (excludeFrames == null ? sprMovieClip.getFrameLabels() : excludeFrames))
-			for (j in getFramesArray(sprMovieClip, i))
+		for (i in (excludeFrames == null ? movieClip.getFrameLabels() : excludeFrames))
+		{
+			trace('Creating "$i" for "$key"');
+			for (j in getFramesArray(movieClip, i))
+			{
 				frameCollection.pushFrame(j);
+				trace('Finished creating "$i" for "$key"');
+			}
+		}
 
 		return frameCollection;
 	}
 
-	@:noCompletion private static function getFramesArray(t:SpriteMovieClip, animation:String):Array<FlxFrame>
+	@:noCompletion private static function getFramesArray(movieClip:SpriteMovieClip, animation:String):Array<FlxFrame>
 	{
-		var daFramez:Array<FlxFrame> = [];
-		var rect:Rectangle = t.getBounds(t);
+		movieClip.currentLabel = animation;
 
-		var frameNum:Int = 0;
+		var daFrames:Array<FlxFrame> = []
 
-		for (i in t.getFrame(animation)...t.numFrames)
+		for (i in movieClip.getFrame(animation)...movieClip.numFrames)
 		{
-			var data:BitmapData = new BitmapData(Std.int(rect.width + rect.x), Std.int(rect.height + rect.y), true, 0);
-			data.draw(t, true);
+			movieClip.currentFrame = i;
 
-			var theFrame:FlxFrame = new FlxFrame(FlxGraphic.fromBitmapData(data));
-			theFrame.frame = new FlxRect(0, 0, data.width, data.height);
-			theFrame.name = animation + frameNum;
-			theFrame.sourceSize.set(data.width, data.height);
-			daFramez.push(theFrame);
+			if (movieClip.currentLabel == animation)
+			{
+				var data:BitmapData = new BitmapData(Std.int(movieClip.getRect(movieClip).width + movieClip.getRect(t).x), Std.int(t.getRect(t).height + t.getRect(t).y), true, 0);
+				data.draw(movieClip, true);
 
-			data.dispose();
-			data = null;
+				var theFrame:FlxFrame = new FlxFrame(FlxGraphic.fromBitmapData(data));
+				theFrame.name = movieClip.currentLabel + movieClip.currentFrame;
+				theFrame.frame = new FlxRect(0, 0, data.width, data.height);
+				theFrame.sourceSize.set(data.width, data.height);
+				daFrames.push(theFrame);
 
-			frameNum++;
+				data.dispose();
+				data = null;
+			}
+			else
+				break;
 		}
 
-		return daFramez;
+		return daFrames;
 	}
 }
