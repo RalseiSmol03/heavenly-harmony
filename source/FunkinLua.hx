@@ -60,7 +60,7 @@ class FunkinLua
 
 	// public var errorHandler:String->Void;
 	#if LUA_ALLOWED
-	public var lua:State = null;
+	public var lua:cpp.RawPointer<Lua_State> = null;
 	#end
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';

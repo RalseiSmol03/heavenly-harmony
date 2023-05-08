@@ -37,7 +37,7 @@ class EditorLua
 	public static var Function_Continue = 0;
 
 	#if LUA_ALLOWED
-	public var lua:State = null;
+	public var lua:cpp.RawPointer<Lua_State> = null;
 	#end
 
 	public function new(script:String)
@@ -251,7 +251,7 @@ class EditorLua
 	}
 
 	#if LUA_ALLOWED
-	function resultIsAllowed(leLua:State, leResult:Null<Int>)
+	function resultIsAllowed(leLua:cpp.RawPointer<Lua_State>, leResult:Null<Int>)
 	{ // Makes it ignore warnings
 		switch (Lua.type(leLua, leResult))
 		{
