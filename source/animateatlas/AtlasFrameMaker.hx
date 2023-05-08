@@ -50,7 +50,7 @@ class AtlasFrameMaker extends FlxFramesCollection
 	{
 		movieClip.currentLabel = animation;
 
-		var daFrames:Array<FlxFrame> = []
+		var daFrames:Array<FlxFrame> = [];
 
 		for (i in movieClip.getFrame(animation)...movieClip.numFrames)
 		{
