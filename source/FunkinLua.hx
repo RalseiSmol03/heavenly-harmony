@@ -2,10 +2,9 @@ package;
 
 import openfl.display.BitmapData;
 #if LUA_ALLOWED
-import llua.Lua;
-import llua.LuaL;
-import llua.State;
-import llua.Convert;
+import hxlua.Lua;
+import hxlua.LuaL;
+import hxlua.Types;
 #end
 import animateatlas.AtlasFrameMaker;
 import flixel.FlxG;
