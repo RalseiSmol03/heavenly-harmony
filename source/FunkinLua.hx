@@ -41,6 +41,7 @@ import sys.io.File;
 import Type.ValueType;
 import Controls;
 import DialogueBoxPsych;
+import haxe.Constraints;
 #if hscript
 import hscript.Parser;
 import hscript.Interp;
@@ -57,6 +58,7 @@ class FunkinLua
 	public static var Function_Stop:Dynamic = 1;
 	public static var Function_Continue:Dynamic = 0;
 	public static var Function_StopLua:Dynamic = 2;
+	public static var callbacks:Map<String, Function> = [];
 
 	#if LUA_ALLOWED
 	public var lua:cpp.RawPointer<Lua_State> = null;
@@ -3232,11 +3234,9 @@ class FunkinLua
 				else // Anything else
 					blah = blah[leNum];
 			}
+
 			return blah;
 		}
-		/*if(Std.isOfType(instance, Map))
-				instance.set(variable,value);
-			else */
 
 		if (PlayState.instance.variables.exists(variable))
 		{
@@ -3984,6 +3984,56 @@ class FunkinLua
 		}
 
 		return ret;
+	}
+
+	public function addCallback(name:String, callback:Function):Void
+	{
+		if (vm == null || (vm != null && (callback != null && !Reflect.isFunction(callback))))
+			return;
+
+		callbacks.set(name, callback);
+
+		Lua.pushstring(vm, name);
+		Lua.pushcclosure(vm, cpp.Function.fromStaticFunction(callbackHandler), 1);
+		Lua.setglobal(vm, name);
+	}
+
+	public function removeCallback(name:String):Void
+	{
+		if (vm == null)
+			return;
+
+		callbacks.remove(name);
+
+		Lua.pushnil(vm);
+		Lua.setglobal(vm, name);
+	}
+
+	private static function callbackHandler(L:cpp.RawPointer<Lua_State>):Int
+	{
+		/* callback name */
+		var name:String = Lua.tostring(L, Lua.upvalueindex(1));
+
+		var n:Int = Lua.gettop(L);
+
+		var args:Array<Any> = [];
+		for (i in 0...n)
+			args[i] = fromLua(L, i + 1);
+
+		/* clear the stack */
+		Lua.pop(L, n);
+
+		if (callbacks.exists(name))
+		{
+			var ret:Dynamic = Reflect.callMethod(null, callbacks.get(name), args);
+			if (ret != null)
+			{
+				toLua(L, ret);
+				return 1;
+			}
+		}
+
+		return 0;
 	}
 }
 
