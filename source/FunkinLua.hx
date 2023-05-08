@@ -721,91 +721,6 @@ class FunkinLua
 			}
 			Lua.pushnil(lua);
 		});
-		/*Lua_helper.add_callback(lua, "getGlobals", function(luaFile:String){ // returns a copy of the specified file's globals
-			var cervix = luaFile + ".lua";
-			if(luaFile.endsWith(".lua"))cervix=luaFile;
-			var doPush = false;
-			#if MODS_ALLOWED
-			if(FileSystem.exists(Paths.modFolders(cervix)))
-			{
-				cervix = Paths.modFolders(cervix);
-				doPush = true;
-			}
-			else if(FileSystem.exists(cervix))
-			{
-				doPush = true;
-			}
-			else {
-				cervix = Paths.getPreloadPath(cervix);
-				if(FileSystem.exists(cervix)) {
-					doPush = true;
-				}
-			}
-			#else
-			cervix = Paths.getPreloadPath(cervix);
-			if(Assets.exists(cervix)) {
-				doPush = true;
-			}
-			#end
-			if(doPush)
-			{
-				for (luaInstance in PlayState.instance.luaArray)
-				{
-					if(luaInstance.scriptName == cervix)
-					{
-						Lua.newtable(lua);
-						var tableIdx = Lua.gettop(lua);
-
-						Lua.pushvalue(luaInstance.lua, Lua.GLOBALSINDEX);
-						Lua.pushnil(luaInstance.lua);
-						while(Lua.next(luaInstance.lua, -2) != 0) {
-							// key = -2
-							// value = -1
-
-							var pop:Int = 0;
-
-							// Manual conversion
-							// first we convert the key
-							if(Lua.isnumber(luaInstance.lua,-2)){
-								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -2));
-								pop++;
-							}else if(Lua.isstring(luaInstance.lua,-2)){
-								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -2));
-								pop++;
-							}else if(Lua.isboolean(luaInstance.lua,-2)){
-								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -2));
-								pop++;
-							}
-							// TODO: table
-
-
-							// then the value
-							if(Lua.isnumber(luaInstance.lua,-1)){
-								Lua.pushnumber(lua, Lua.tonumber(luaInstance.lua, -1));
-								pop++;
-							}else if(Lua.isstring(luaInstance.lua,-1)){
-								Lua.pushstring(lua, Lua.tostring(luaInstance.lua, -1));
-								pop++;
-							}else if(Lua.isboolean(luaInstance.lua,-1)){
-								Lua.pushboolean(lua, Lua.toboolean(luaInstance.lua, -1));
-								pop++;
-							}
-							// TODO: table
-
-							if(pop==2)Lua.rawset(lua, tableIdx); // then set it
-							Lua.pop(luaInstance.lua, 1); // for the loop
-						}
-						Lua.pop(luaInstance.lua,1); // end the loop entirely
-						Lua.pushvalue(lua, tableIdx); // push the table onto the stack so it gets returned
-
-						return;
-					}
-
-				}
-			}
-			Lua.pushnil(lua);
-		});*/
-
 		Lua_helper.add_callback(lua, "isRunning", function(luaFile:String)
 		{
 			var cervix = luaFile + ".lua";
@@ -3728,17 +3643,19 @@ class FunkinLua
 
 		if (v != null)
 			v = v.trim();
+
 		if (v == null || v == "")
 		{
 			switch (status)
 			{
-				case Lua.ERRRUN:
+				case e if (e == Lua.ERRRUN):
 					return "Runtime Error";
-				case Lua.ERRMEM:
+				case e if (e == Lua.ERRMEM):
 					return "Memory Allocation Error";
-				case Lua.ERRERR:
+				case e if (e == Lua.ERRERR):
 					return "Critical Error";
 			}
+
 			return "Unknown Error";
 		}
 
@@ -3775,6 +3692,7 @@ class FunkinLua
 
 			for (arg in args)
 				Convert.toLua(lua, arg);
+
 			var status:Int = Lua.pcall(lua, args.length, 1, 0);
 
 			// Checks if it's not successful, then show a error.
@@ -3831,6 +3749,7 @@ class FunkinLua
 			}
 			return true;
 		}
+
 		return false;
 	}
 
@@ -3845,6 +3764,7 @@ class FunkinLua
 		{
 			coverMeInPiss = getVarInArray(coverMeInPiss, killMe[i]);
 		}
+
 		return coverMeInPiss;
 	}
 
@@ -3924,6 +3844,146 @@ class FunkinLua
 	public static inline function getInstance()
 	{
 		return PlayState.instance.isDead ? GameOverSubstate.instance : PlayState.instance;
+	}
+
+	public static function toLua(L:cpp.RawPointer<Lua_State>, object:Any):Bool
+	{
+		switch (Type.typeof(object))
+		{
+			case TNull:
+				Lua.pushnil(L);
+			case TBool:
+				Lua.pushboolean(L, object ? 1 : 0);
+			case TInt | TFloat:
+				Lua.pushnumber(L, cast(object, Float));
+			case TClass(String):
+				Lua.pushstring(L, cast(object, String));
+			case TClass(Array):
+				var tArray:Array<Any> = cast object;
+
+				Lua.createtable(L, tArray.length, 0);
+
+				for (i in 0...tArray.length)
+				{
+					Lua.pushnumber(L, i + 1);
+					toLua(L, tArray[i]);
+					Lua.settable(L, -3);
+				}
+			case TClass(haxe.ds.StringMap) | TClass(haxe.ds.ObjectMap):
+				var tLen:Int = 0;
+				for (n => val in object)
+					tLen++;
+
+				Lua.createtable(L, tLen, 0);
+
+				for (n => val in object)
+				{
+					Lua.pushstring(L, Std.string(n));
+					toLua(L, val);
+					Lua.settable(L, -3);
+				}
+			case TObject:
+				var tLen:Int = 0;
+				for (n in Reflect.fields(object))
+					tLen++;
+
+				Lua.createtable(L, tLen, 0);
+
+				for (n in Reflect.fields(object))
+				{
+					Lua.pushstring(L, n);
+					toLua(L, Reflect.field(object, n));
+					Lua.settable(L, -3);
+				}
+			default:
+				trace('Cannot convert ${Type.typeof(object)} to Lua');
+				return false;
+		}
+
+		return true;
+	}
+
+	public static function fromLua(L:cpp.RawPointer<Lua_State>, v:Int):Any
+	{
+		var ret:Any = null;
+
+		switch (Lua.type(L, v))
+		{
+			case t if (t == Lua.TNIL):
+				ret = null;
+			case t if (t == Lua.TBOOLEAN):
+				ret = Lua.toboolean(L, v) == 1 ? true : false;
+			case t if (t == Lua.TNUMBER):
+				ret = Lua.tonumber(L, v);
+			case t if (t == Lua.TSTRING):
+				ret = cast(Lua.tostring(L, v), String);
+			case t if (t == Lua.TTABLE):
+				var count:Int = 0;
+				var array:Bool = true;
+
+				Lua.pushnil(L);
+
+				while (Lua.next(L, v < 0 ? v - 1 : v) != 0)
+				{
+					if (array)
+					{
+						if (Lua.type(L, -2) != Lua.TNUMBER)
+							array = false;
+						else
+						{
+							var index:Float = Lua.tonumber(L, -2);
+							if (index < 0 || Std.int(index) != index)
+								array = false;
+						}
+					}
+
+					count++;
+					Lua.pop(L, 1);
+				}
+
+				if (count == 0)
+					ret = {};
+				else if (array)
+				{
+					var vArray:Array<Any> = [];
+
+					Lua.pushnil(L);
+
+					while (Lua.next(L, v < 0 ? v - 1 : v) != 0)
+					{
+						vArray[Std.int(Lua.tonumber(L, -2)) - 1] = fromLua(L, -1);
+						Lua.pop(L, 1);
+					}
+
+					ret = cast vArray;
+				}
+				else
+				{
+					var vAccess:DynamicAccess<Any> = {};
+
+					Lua.pushnil(L);
+
+					while (Lua.next(L, v < 0 ? v - 1 : v) != 0)
+					{
+						switch (Lua.type(L, -2))
+						{
+							case t if (t == Lua.TSTRING):
+								vAccess.set(cast(Lua.tostring(L, -2), String), fromLua(L, -1));
+							case t if (t == Lua.TNUMBER):
+								vAccess.set(Std.string(Lua.tonumber(L, -2)), fromLua(L, -1));
+						}
+
+						Lua.pop(L, 1);
+					}
+
+					ret = cast vAccess;
+				}
+			default:
+				trace('Cannot return ${Lua.typename(L, v)} in Haxe');
+				ret = null;
+		}
+
+		return ret;
 	}
 }
 
