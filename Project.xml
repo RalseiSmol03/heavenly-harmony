@@ -37,7 +37,7 @@
 	<source name="source" />
 
 	<!-- PSYCH ENGINE CUSTOMIZATION -->
-	<!-- <define name="LUA_ALLOWED" if="cpp" /> -->
+	<define name="LUA_ALLOWED" if="cpp" />
 	<define name="PSYCH_WATERMARKS" />
 
 	<assets path="assets/preload" rename="assets" exclude="*.ogg" if="web" />
