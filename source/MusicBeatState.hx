@@ -15,9 +15,11 @@ import flixel.FlxState;
 import flixel.FlxCamera;
 import flixel.FlxBasic;
 #if mobile
-import mobile.flixel.FlxButton;
 import mobile.flixel.FlxHitbox;
 import mobile.flixel.FlxVirtualPad;
+import flixel.FlxCamera;
+import flixel.input.actions.FlxActionInput;
+import flixel.util.FlxDestroyUtil;
 #end
 
 class MusicBeatState extends FlxUIState
