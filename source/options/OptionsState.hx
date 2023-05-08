@@ -46,7 +46,7 @@ class OptionsState extends MusicBeatState
 			case 'controls':
 				openSubState(new options.ControlsSubState());
 			case 'prefs':
-				openSubState(new options.GraphicsSettingsSubState());
+				openSubState(new options.PreferencesSubState());
 		}
 	}
 
