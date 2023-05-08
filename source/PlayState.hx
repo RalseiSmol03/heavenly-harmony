@@ -922,25 +922,28 @@ class PlayState extends MusicBeatState
 		#end
 
 		// STAGE SCRIPTS
-		#if (MODS_ALLOWED && LUA_ALLOWED)
-		var doPush:Bool = false;
-		var luaFile:String = 'stages/' + curStage + '.lua';
-		if (FileSystem.exists(Paths.modFolders(luaFile)))
+		#if LUA_ALLOWED
+		#if MODS_ALLOWED
+		var luaToLoad:String = Paths.modFolders('stages/' + event + '.lua');
+		if (FileSystem.exists(luaToLoad))
 		{
-			luaFile = Paths.modFolders(luaFile);
-			doPush = true;
+			luaArray.push(new FunkinLua(luaToLoad));
 		}
 		else
 		{
-			luaFile = Paths.getPreloadPath(luaFile);
-			if (FileSystem.exists(luaFile))
+			luaToLoad = Paths.getPreloadPath('stages/' + event + '.lua');
+			if (FileSystem.exists(luaToLoad))
 			{
-				doPush = true;
+				luaArray.push(new FunkinLua(luaToLoad));
 			}
 		}
-
-		if (doPush)
-			luaArray.push(new FunkinLua(luaFile));
+		#elseif sys
+		var luaToLoad:String = Paths.getPreloadPath('stages/' + curStage + '.lua');
+		if (OpenFlAssets.exists(luaToLoad))
+		{
+			luaArray.push(new FunkinLua(luaToLoad));
+		}
+		#end
 		#end
 
 		var gfVersion:String = SONG.gfVersion;
