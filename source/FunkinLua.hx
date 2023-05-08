@@ -34,7 +34,7 @@ import flixel.system.FlxAssets.FlxShader;
 #if (!flash && MODS_ALLOWED && sys)
 import flixel.addons.display.FlxRuntimeShader;
 #end
-#if MODS_ALLOWED
+#if (MODS_ALLOWED && LUA_ALLOWED)
 import sys.FileSystem;
 import sys.io.File;
 #end
