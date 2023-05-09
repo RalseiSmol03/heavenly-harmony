@@ -675,7 +675,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		}
 		currentText++;
 
-		if (curDialogue.sound != null && curDialogue.speed == 0.05)
+		if ((curDialogue.sound != null && curDialogue.sound.length > 0) && curDialogue.speed == 0.05)
 		{
 			if (curSound != null && curSound.playing) // the voices in my head
 			{
@@ -686,7 +686,8 @@ class DialogueBoxPsych extends FlxSpriteGroup
 			curSound.volume = 1;
 			curSound.play();
 		}
-		if (curDialogue.sound != null && curDialogue.speed == 0.01 && curSound.playing)
+		
+		if ((curDialogue.sound != null && curDialogue.sound.length > 0) && curDialogue.speed == 0.01 && curSound.playing)
 		{ // just making sure
 			curSound.volume = 0;
 			curSound.stop();
