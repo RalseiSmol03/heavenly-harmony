@@ -521,9 +521,7 @@ class FunkinLua
 			{
 				if (funcName == null)
 				{
-					#if (linc_luajit >= "0.0.6")
 					LuaL.error(lua, "bad argument #1 to 'callOnLuas' (string expected, got nil)");
-					#end
 					return;
 				}
 				if (args == null)
@@ -544,16 +542,12 @@ class FunkinLua
 		{
 			if (luaFile == null)
 			{
-				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'callScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			if (funcName == null)
 			{
-				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #2 to 'callScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			if (args == null)
@@ -608,16 +602,12 @@ class FunkinLua
 		{ // returns the global from a script
 			if (luaFile == null)
 			{
-				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #1 to 'getGlobalFromScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			if (global == null)
 			{
-				#if (linc_luajit >= "0.0.6")
 				LuaL.error(lua, "bad argument #2 to 'getGlobalFromScript' (string expected, got nil)");
-				#end
 				return;
 			}
 			var cervix = luaFile + ".lua";
@@ -2450,7 +2440,7 @@ class FunkinLua
 			#if MODS_ALLOWED
 			if (FileSystem.exists(path))
 			#else
-			if (FileSystem.exists(path))
+			if (Assets.exists(path))
 			#end
 			{
 				var shit:DialogueFile = DialogueBoxPsych.parseDialogue(path);
