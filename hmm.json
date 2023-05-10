@@ -39,10 +39,8 @@
 			"url":"https://github.com/MAJigsaw77/extension-androidtools.git"
 		},
 		{
-			"name":"discord_rpc",
-			"type":"git",
-			"ref":"master",
-			"url":"https://github.com/Aidan63/linc_discord-rpc.git"
+			"name":"hxdiscord_rpc",
+			"type":"haxelib"
 		}
 	]
 }
