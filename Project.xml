@@ -76,7 +76,7 @@
 	<haxelib name="hscript" />
 	<haxelib name="hxlua" if="LUA_ALLOWED" />
 	<haxelib name="extension-androidtools" if="android" />
-	<haxelib name="discord_rpc" if="desktop" />
+	<haxelib name="hxdiscord_rpc" if="desktop" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
