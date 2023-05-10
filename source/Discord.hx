@@ -1,8 +1,8 @@
 package;
 
-import discord_rpc.DiscordRpc;
-
-using StringTools;
+import hxdiscord_rpc.Discord;
+import hxdiscord_rpc.Types;
+import sys.thread.Thread;
 
 class DiscordClient
 {
@@ -12,52 +12,34 @@ class DiscordClient
 	{
 		trace("Discord Client starting...");
 
-		DiscordRpc.start({
-			clientID: "1096671725820854345",
-			onReady: onReady,
-			onError: onError,
-			onDisconnected: onDisconnected
-		});
+		var handlers:DiscordEventHandlers = DiscordEventHandlers.create();
+		handlers.ready = cpp.Function.fromStaticFunction(onReady);
+		handlers.disconnected = cpp.Function.fromStaticFunction(onDisconnected);
+		handlers.errored = cpp.Function.fromStaticFunction(onError);
+		Discord.Initialize("1096671725820854345", cpp.RawPointer.addressOf(handlers), 1, null);
 
 		trace("Discord Client started.");
 
 		while (true)
 		{
-			DiscordRpc.process();
+			#if DISCORD_DISABLE_IO_THREAD
+			Discord.UpdateConnection();
+			#end
+			Discord.RunCallbacks();
 			Sys.sleep(2);
 		}
 
-		DiscordRpc.shutdown();
+		Discord.Shutdown();
 	}
 
 	public static function shutdown():Void
 	{
-		DiscordRpc.shutdown();
-	}
-
-	static function onReady():Void
-	{
-		DiscordRpc.presence({
-			details: "In the Menus",
-			state: null,
-			largeImageKey: 'icon',
-			largeImageText: "Psych Engine"
-		});
-	}
-
-	static function onError(_code:Int, _message:String):Void
-	{
-		trace('Error! $_code : $_message');
-	}
-
-	static function onDisconnected(_code:Int, _message:String):Void
-	{
-		trace('Disconnected! $_code : $_message');
+		Discord.Shutdown();
 	}
 
 	public static function initialize():Void
 	{
-		sys.thread.Thread.create(function()
+		Thread.create(function()
 		{
 			new DiscordClient();
 		});
@@ -74,15 +56,38 @@ class DiscordClient
 		if (endTimestamp > 0)
 			endTimestamp = startTimestamp + endTimestamp;
 
-		DiscordRpc.presence({
-			details: details,
-			state: state,
-			largeImageKey: 'icon',
-			largeImageText: "Engine Version: " + MainMenuState.psychEngineVersion,
-			smallImageKey: smallImageKey,
-			// Obtained times are in milliseconds so they are divided so Discord can use it
-			startTimestamp: Std.int(startTimestamp / 1000),
-			endTimestamp: Std.int(endTimestamp / 1000)
-		});
+		var discordPresence:DiscordRichPresence = DiscordRichPresence.create();
+		discordPresence.details = details;
+		discordPresence.state = state;
+		discordPresence.largeImageKey = "icon";
+		discordPresence.largeImageText = "Psych Engine";
+		discordPresence.smallImageKey = smallImageKey;
+		discordPresence.startTimestamp = Std.int(startTimestamp / 1000);
+		discordPresence.endTimestamp = Std.int(endTimestamp / 1000);
+		Discord.UpdatePresence(cpp.RawConstPointer.addressOf(discordPresence));
+	}
+
+	private static function onReady(request:cpp.RawConstPointer<DiscordUser>):Void
+	{
+		var requestPtr:cpp.Star<DiscordUser> = cpp.ConstPointer.fromRaw(request).ptr;
+
+		trace('Discord: Connected to User (' + cast(requestPtr.username, String) + '#' + cast(requestPtr.discriminator, String) + ')');
+
+		var discordPresence:DiscordRichPresence = DiscordRichPresence.create();
+		discordPresence.details = "In the Menus";
+		discordPresence.state = null;
+		discordPresence.largeImageKey = "icon";
+		discordPresence.largeImageText = "Psych Engine";
+		Discord.UpdatePresence(cpp.RawConstPointer.addressOf(discordPresence));
+	}
+
+	private static function onDisconnected(errorCode:Int, message:cpp.ConstCharStar):Void
+	{
+		trace('Discord: Disconnected (' + errorCode + ': ' + cast(message, String) + ')');
+	}
+
+	private static function onError(errorCode:Int, message:cpp.ConstCharStar):Void
+	{
+		trace('Discord: Error (' + errorCode + ': ' + cast(message, String) + ')');
 	}
 }
