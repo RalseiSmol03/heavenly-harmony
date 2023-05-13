@@ -406,7 +406,7 @@ class FreeplayState extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (ctrl)
+		if (ctrl #if mobile || virtualPad.buttonX.justPressed #end)
 		{
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
@@ -486,7 +486,7 @@ class FreeplayState extends MusicBeatState
 				}
 			});
 		}
-		else if (controls.RESET)
+		else if (controls.RESET #if mobile || virtualPad.buttonY.justPressed #end)
 		{
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
