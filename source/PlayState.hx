@@ -1226,6 +1226,11 @@ class PlayState extends MusicBeatState
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
+		#if mobile
+		addHitbox(false);
+		addHitboxCamera();
+		#end
+
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
@@ -2512,6 +2517,10 @@ class PlayState extends MusicBeatState
 	{
 		startingSong = false;
 
+		#if mobile
+		hitbox.visible = true;
+		#end
+
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
@@ -3254,7 +3263,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
 			if (ret != FunkinLua.Function_Stop)
@@ -4275,6 +4284,10 @@ class PlayState extends MusicBeatState
 				return;
 			}
 		}
+
+		#if mobile
+		hitbox.visible = false;
+		#end
 
 		timeBarBG.visible = false;
 		timeBar.visible = false;

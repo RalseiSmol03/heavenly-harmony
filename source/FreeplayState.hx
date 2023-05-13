@@ -244,13 +244,17 @@ class FreeplayState extends MusicBeatState
 		textBG.alpha = 0.6;
 		add(textBG);
 
-		#if PRELOAD_ALL
+		#if (PRELOAD_ALL && !mobile)
 		var leText:String = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
+		var size:Int = 16;
+		#elseif mobile
+		var leText:String = "Press C to listen to the Song / Press X to open the Gameplay Changers Menu / Press Y to Reset your Score and Accuracy.";
 		var size:Int = 16;
 		#else
 		var leText:String = "Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
 		var size:Int = 18;
 		#end
+
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
 		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, RIGHT);
 		text.scrollFactor.set();
@@ -267,6 +271,7 @@ class FreeplayState extends MusicBeatState
 
 		#if mobile
 		addVirtualPad(LEFT_FULL, A_B_C_X_Y);
+		virtualPad.y -= 26;
 		#end
 
 		super.create();
@@ -345,8 +350,6 @@ class FreeplayState extends MusicBeatState
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
-		var space = FlxG.keys.justPressed.SPACE;
-		var ctrl = FlxG.keys.justPressed.CONTROL;
 
 		var shiftMult:Int = 1;
 		if (FlxG.keys.pressed.SHIFT)
@@ -406,7 +409,7 @@ class FreeplayState extends MusicBeatState
 			MusicBeatState.switchState(new MainMenuState());
 		}
 
-		if (ctrl #if mobile || virtualPad.buttonX.justPressed #end)
+		if (FlxG.keys.justPressed.CONTROL #if mobile || virtualPad.buttonX.justPressed #end)
 		{
 			#if mobile
 			removeVirtualPad();
@@ -415,7 +418,7 @@ class FreeplayState extends MusicBeatState
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
 		}
-		else if (space)
+		else if (FlxG.keys.justPressed.SPACE #if mobile || virtualPad.buttonC.justPressed #end)
 		{
 			if (instPlaying != curSelected)
 			{

@@ -70,12 +70,11 @@ class PreferencesSubState extends BaseOptionsMenu
 
 		#if !html5 // Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		var option:Option = new Option('Framerate', "Pretty self explanatory, isn't it?", 'framerate', 'int', 60);
-		addOption(option);
-
 		option.minValue = 60;
 		option.maxValue = 240;
 		option.displayFormat = '%v FPS';
 		option.onChange = onChangeFramerate;
+		addOption(option);
 		#end
 
 		var option:Option = new Option('Note Splashes', "If unchecked, hitting \"Sick!\" notes won't show particles.", 'noteSplashes', 'bool', true);
@@ -126,7 +125,7 @@ class PreferencesSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Controller Mode', 'Check this if you want to play with\na controller instead of using your Keyboard.',
-			'controllerMode', 'bool', false);
+			'controllerMode', 'bool', #if mobile true #else false #end);
 		addOption(option);
 
 		// I'd suggest using "Downscroll" as an example for making your own option since it is the simplest here

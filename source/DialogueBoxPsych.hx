@@ -381,7 +381,14 @@ class DialogueBoxPsych extends FlxSpriteGroup
 			if (bgFade.alpha > 0.5)
 				bgFade.alpha = 0.5;
 
-			if (PlayerSettings.player1.controls.ACCEPT)
+			#if mobile
+			var justTouched:Bool = false;
+			for (touch in FlxG.touches.list)
+				if (touch.justPressed)
+					justTouched = true;
+			#end
+
+			if (PlayerSettings.player1.controls.ACCEPT #if mobile || justTouched #end)
 			{
 				if (!daText.finishedText)
 				{
@@ -394,6 +401,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 				else if (currentText >= dialogueList.dialogue.length)
 				{
 					dialogueEnded = true;
+
 					for (i in 0...textBoxTypes.length)
 					{
 						var checkArray:Array<String> = ['', 'center-'];
@@ -714,15 +722,6 @@ class DialogueBoxPsych extends FlxSpriteGroup
 	{ // Had to make it static because of the editors
 		box.centerOffsets();
 		box.updateHitbox();
-		/*if(box.animation.curAnim.name.startsWith('angry')) {
-				box.offset.set(50, 65);
-			} else if(box.animation.curAnim.name.startsWith('center-angry')) {
-				box.offset.set(50, 30);
-			} else {
-				box.offset.set(10, 0);
-			}
-
-			if(!box.flipX) box.offset.y += 10; */
 
 		if (box.animation.curAnim.name.startsWith('center') || box.animation.curAnim.name.startsWith('center-angry'))
 		{
