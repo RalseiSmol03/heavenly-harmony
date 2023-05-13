@@ -686,7 +686,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 			curSound.volume = 1;
 			curSound.play();
 		}
-		
+
 		if ((curDialogue.sound != null && curDialogue.sound.length > 0) && curDialogue.speed == 0.01 && curSound.playing)
 		{ // just making sure
 			curSound.volume = 0;

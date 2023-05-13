@@ -37,6 +37,10 @@ class SalamatScreen extends MusicBeatState
 		noproblemo.scrollFactor.set();
 		noproblemo.setFormat(Paths.font("GhostKidAOE.otf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(noproblemo);
+
+		#if mobile
+		addVirtualPad(BLANK, A);
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -47,6 +51,7 @@ class SalamatScreen extends MusicBeatState
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			MusicBeatState.switchState(new MainMenuState());
 		}
+
 		super.update(elapsed);
 	}
 }

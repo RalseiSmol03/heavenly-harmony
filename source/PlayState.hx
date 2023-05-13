@@ -1291,7 +1291,9 @@ class PlayState extends MusicBeatState
 		// SONG SPECIFIC SCRIPTS
 		#if LUA_ALLOWED
 		var filesPushed:Array<String> = [];
-		var foldersToCheck:Array<String> = [SUtil.getStorageDirectory() + Paths.getPreloadPath('data/' + Paths.formatToSongPath(SONG.song) + '/')];
+		var foldersToCheck:Array<String> = [
+			SUtil.getStorageDirectory() + Paths.getPreloadPath('data/' + Paths.formatToSongPath(SONG.song) + '/')
+		];
 
 		#if MODS_ALLOWED
 		foldersToCheck.insert(0, Paths.mods('data/' + Paths.formatToSongPath(SONG.song) + '/'));
@@ -5640,17 +5642,20 @@ class PlayState extends MusicBeatState
 	{
 		var returnVal:Dynamic = FunkinLua.Function_Continue;
 		#if LUA_ALLOWED
-		if(exclusions == null) exclusions = [];
+		if (exclusions == null)
+			exclusions = [];
 
-		for (script in luaArray) {
-			if(exclusions.contains(script.scriptName))
+		for (script in luaArray)
+		{
+			if (exclusions.contains(script.scriptName))
 				continue;
 
 			var myValue = script.call(event, args);
-			if(myValue == FunkinLua.Function_StopLua && !ignoreStops)
+			if (myValue == FunkinLua.Function_StopLua && !ignoreStops)
 				break;
 
-			if(myValue != null && myValue != FunkinLua.Function_Continue) {
+			if (myValue != null && myValue != FunkinLua.Function_Continue)
+			{
 				returnVal = myValue;
 			}
 		}

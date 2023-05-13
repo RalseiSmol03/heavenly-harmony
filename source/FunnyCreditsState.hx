@@ -204,6 +204,10 @@ class FunnyCreditsState extends MusicBeatState // Reusing CreditsState cuz BIG B
 
 		updateSelection(0);
 
+		#if mobile
+		addVirtualPad(BLANK, B);
+		#end
+
 		super.create();
 	}
 

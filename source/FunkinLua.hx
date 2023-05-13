@@ -516,27 +516,26 @@ class FunkinLua
 			return runningScripts;
 		});
 
-		addCallback("callOnLuas",
-			function(?funcName:String, ?args:Array<Dynamic>, ignoreStops = false, ignoreSelf = true, ?exclusions:Array<String>)
+		addCallback("callOnLuas", function(?funcName:String, ?args:Array<Dynamic>, ignoreStops = false, ignoreSelf = true, ?exclusions:Array<String>)
+		{
+			if (funcName == null)
 			{
-				if (funcName == null)
-				{
-					LuaL.error(lua, "bad argument #1 to 'callOnLuas' (string expected, got nil)");
-					return;
-				}
-				if (args == null)
-					args = [];
+				LuaL.error(lua, "bad argument #1 to 'callOnLuas' (string expected, got nil)");
+				return;
+			}
+			if (args == null)
+				args = [];
 
-				if (exclusions == null)
-					exclusions = [];
+			if (exclusions == null)
+				exclusions = [];
 
-				Lua.getglobal(lua, 'scriptName');
-				var daScriptName = Lua.tostring(lua, -1);
-				Lua.pop(lua, 1);
-				if (ignoreSelf && !exclusions.contains(daScriptName))
-					exclusions.push(daScriptName);
-				PlayState.instance.callOnLuas(funcName, args, ignoreStops, exclusions);
-			});
+			Lua.getglobal(lua, 'scriptName');
+			var daScriptName = Lua.tostring(lua, -1);
+			Lua.pop(lua, 1);
+			if (ignoreSelf && !exclusions.contains(daScriptName))
+				exclusions.push(daScriptName);
+			PlayState.instance.callOnLuas(funcName, args, ignoreStops, exclusions);
+		});
 
 		addCallback("callScript", function(?luaFile:String, ?funcName:String, ?args:Array<Dynamic>)
 		{
@@ -2654,13 +2653,12 @@ class FunkinLua
 			return closed;
 		});
 
-		addCallback("changePresence",
-			function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
-			{
-				#if desktop
-				DiscordClient.changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
-				#end
-			});
+		addCallback("changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
+		{
+			#if desktop
+			DiscordClient.changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
+			#end
+		});
 
 		// LUA TEXTS
 		addCallback("makeLuaText", function(tag:String, text:String, width:Int, x:Float, y:Float)
