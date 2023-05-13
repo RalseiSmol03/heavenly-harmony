@@ -1228,7 +1228,7 @@ class PlayState extends MusicBeatState
 
 		#if mobile
 		addHitbox(false);
-		addHitboxCamera();
+		addHitboxCamera(false);
 		#end
 
 		// if (SONG.song == 'South')
