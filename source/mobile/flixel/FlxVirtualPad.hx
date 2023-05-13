@@ -5,6 +5,7 @@ import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
+import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
 import mobile.flixel.FlxButton;
 import openfl.utils.Assets;
@@ -68,59 +69,59 @@ class FlxVirtualPad extends FlxSpriteGroup
 		switch (DPad)
 		{
 			case UP_DOWN:
-				add(buttonUp = createButton(0, FlxG.height - 255, 'up', 0x00FF00));
-				add(buttonDown = createButton(0, FlxG.height - 135, 'down', 0x00FFFF));
+				add(buttonUp = createButton(0, FlxG.height - 255, 'up', FlxColor.fromRGB(88, 181, 166)));
+				add(buttonDown = createButton(0, FlxG.height - 135, 'down', FlxColor.fromRGB(110, 140, 247)));
 			case LEFT_RIGHT:
-				add(buttonLeft = createButton(0, FlxG.height - 135, 'left', 0xFF00FF));
-				add(buttonRight = createButton(127, FlxG.height - 135, 'right', 0xFF0000));
+				add(buttonLeft = createButton(0, FlxG.height - 135, 'left', FlxColor.fromRGB(154, 133, 203)));
+				add(buttonRight = createButton(127, FlxG.height - 135, 'right', FlxColor.fromRGB(238, 139, 219)));
 			case UP_LEFT_RIGHT:
-				add(buttonUp = createButton(105, FlxG.height - 243, 'up', 0x00FF00));
-				add(buttonLeft = createButton(0, FlxG.height - 135, 'left', 0xFF00FF));
-				add(buttonRight = createButton(207, FlxG.height - 135, 'right', 0xFF0000));
+				add(buttonUp = createButton(105, FlxG.height - 243, 'up', FlxColor.fromRGB(88, 181, 166)));
+				add(buttonLeft = createButton(0, FlxG.height - 135, 'left', FlxColor.fromRGB(154, 133, 203)));
+				add(buttonRight = createButton(207, FlxG.height - 135, 'right', FlxColor.fromRGB(238, 139, 219)));
 			case LEFT_FULL:
-				add(buttonUp = createButton(105, FlxG.height - 345, 'up', 0x00FF00));
-				add(buttonLeft = createButton(0, FlxG.height - 243, 'left', 0xFF00FF));
-				add(buttonRight = createButton(207, FlxG.height - 243, 'right', 0xFF0000));
-				add(buttonDown = createButton(105, FlxG.height - 135, 'down', 0x00FFFF));
+				add(buttonUp = createButton(105, FlxG.height - 345, 'up', FlxColor.fromRGB(88, 181, 166)));
+				add(buttonLeft = createButton(0, FlxG.height - 243, 'left', FlxColor.fromRGB(154, 133, 203)));
+				add(buttonRight = createButton(207, FlxG.height - 243, 'right', FlxColor.fromRGB(238, 139, 219)));
+				add(buttonDown = createButton(105, FlxG.height - 135, 'down', FlxColor.fromRGB(110, 140, 247)));
 			case RIGHT_FULL:
-				add(buttonUp = createButton(FlxG.width - 258, FlxG.height - 408, 'up', 0x00FF00));
-				add(buttonLeft = createButton(FlxG.width - 384, FlxG.height - 309, 'left', 0xFF00FF));
-				add(buttonRight = createButton(FlxG.width - 132, FlxG.height - 309, 'right', 0xFF0000));
-				add(buttonDown = createButton(FlxG.width - 258, FlxG.height - 201, 'down', 0x00FFFF));
+				add(buttonUp = createButton(FlxG.width - 258, FlxG.height - 408, 'up', FlxColor.fromRGB(88, 181, 166)));
+				add(buttonLeft = createButton(FlxG.width - 384, FlxG.height - 309, 'left', FlxColor.fromRGB(154, 133, 203)));
+				add(buttonRight = createButton(FlxG.width - 132, FlxG.height - 309, 'right', FlxColor.fromRGB(238, 139, 219)));
+				add(buttonDown = createButton(FlxG.width - 258, FlxG.height - 201, 'down', FlxColor.fromRGB(110, 140, 247)));
 			case BLANK: // do nothing
 		}
 
 		switch (Action)
 		{
 			case A:
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', FlxColor.fromRGB(238, 139, 219)));
 			case B:
 				add(buttonB = createButton(FlxG.width - 132, FlxG.height - 135, 'b', 0xFFCB00));
 			case A_B:
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 'b', 0xFFCB00));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', FlxColor.fromRGB(238, 139, 219)));
 			case A_B_C:
 				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 'c', 0x44FF00));
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 'b', 0xFFCB00));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', FlxColor.fromRGB(238, 139, 219)));
 			case A_B_X_Y:
 				add(buttonX = createButton(FlxG.width - 510, FlxG.height - 135, 'x', 0x99062D));
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 'b', 0xFFCB00));
 				add(buttonY = createButton(FlxG.width - 384, FlxG.height - 135, 'y', 0x4A35B9));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', FlxColor.fromRGB(238, 139, 219)));
 			case A_B_C_X_Y:
 				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 'c', 0x44FF00));
 				add(buttonX = createButton(FlxG.width - 258, FlxG.height - 255, 'x', 0x99062D));
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 'b', 0xFFCB00));
 				add(buttonY = createButton(FlxG.width - 132, FlxG.height - 255, 'y', 0x4A35B9));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', FlxColor.fromRGB(238, 139, 219)));
 			case A_B_C_X_Y_Z:
 				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 'x', 0x99062D));
 				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 'c', 0x44FF00));
 				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 'y', 0x4A35B9));
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 'b', 0xFFCB00));
 				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 'z', 0xCCB98E));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', FlxColor.fromRGB(238, 139, 219)));
 			case A_B_C_D_V_X_Y_Z:
 				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 'v', 0x49A9B2));
 				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 'd', 0x0078FF));
@@ -129,7 +130,7 @@ class FlxVirtualPad extends FlxSpriteGroup
 				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 'y', 0x4A35B9));
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 'b', 0xFFCB00));
 				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 'z', 0xCCB98E));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 'a', FlxColor.fromRGB(238, 139, 219)));
 			case BLANK: // do nothing
 		}
 
